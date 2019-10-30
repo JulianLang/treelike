@@ -4,7 +4,7 @@
 
 **For example:**
 
-![concept behind object-as-tree](https://gitlab.centigrade.de/julian.lang/object-tree/blob/6e771d0bf92c433cd59f50d966ea2af4d7c95fd8/docs/object-as-tree.jpg)
+![concept behind object-as-tree](https://gitlab.centigrade.de/julian.lang/object-tree/raw/6e771d0bf92c433cd59f50d966ea2af4d7c95fd8/docs/object-as-tree.jpg)
 
 ## Quick Example
 
