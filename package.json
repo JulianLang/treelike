@@ -13,7 +13,6 @@
     "test:watch": "nodemon --quiet --ext ts --exec 'npx jasmine-ts --config=\"jasmine.json\"'"
   },
   "author": "jlang",
-  "private": true,
   "license": "ISC",
   "devDependencies": {
     "@types/jasmine": "^3.4.0",
