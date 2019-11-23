@@ -17,7 +17,7 @@ export function treeOf<T>(
     children: [],
   };
   if (parent !== undefined) {
-    addChild(parent, node);
+    addChild(node, parent);
   }
 
   buildNode(node, childSelector);
