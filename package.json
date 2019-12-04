@@ -8,7 +8,6 @@
     "dist/src/**/*"
   ],
   "scripts": {
-    "publish": "npm run build && npm publish",
     "build": "npx tsc -p .",
     "test": "npx jasmine-ts --config=\"jasmine.json\"",
     "test:watch": "nodemon --quiet --ext ts --exec 'npx jasmine-ts --config=\"jasmine.json\"'"
