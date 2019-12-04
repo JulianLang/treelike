@@ -1,1 +1,2 @@
-export * from './node-type-of'
+export * from './is-defined';
+export * from './node-type-of';
