@@ -44,7 +44,7 @@ describe('leafTraverser', () => {
     expect(orderOfNames).toEqual(['1', '2', '$root']);
   });
 
-  fit('should break on a given condition', () => {
+  it('should break on a given condition', () => {
     // arrange
     const obj = {
       4: {
