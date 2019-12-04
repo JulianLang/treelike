@@ -1,10 +1,10 @@
-# Object as Tree
+# Treelike
 
-`object-as-tree` is a small set of functions that helps you converting a JS object into tree structure.
+`treelike` is a small set of functions that helps you converting a JS object into tree structure.
 
 **For example:**
 
-![concept behind object-as-tree](https://gitlab.centigrade.de/julian.lang/object-tree/raw/6e771d0bf92c433cd59f50d966ea2af4d7c95fd8/docs/object-as-tree.jpg)
+![concept behind treelike](https://github.com/JulianLang/treelike/blob/master/docs/object-as-tree.jpg?raw=true)
 
 ## Quick Example
 
@@ -16,7 +16,7 @@ import {
   traverse,
   parentTraverser
   TraverseCallbackFn,
-} from 'object-as-tree';
+} from 'treelike';
 
 const myObject = {
   a: 1,
@@ -115,7 +115,7 @@ Creates a new `ObjectTreeNode` with the specified properties. When using this me
 
 #### About the `type` property
 
-The type specifies what type represents the type of the property on the original object. Valid values for the `type`-property are: `'object'`, `'array'` and `'value'`.
+The type abstracts the type of the property on the original object. Valid values for the `type`-property are: `'object'`, `'array'` and `'value'`.
 
 ```ts
 const obj = {
