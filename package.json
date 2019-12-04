@@ -1,6 +1,6 @@
 {
   "name": "treelike",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A library to convert objects into a tree-like structure.",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
@@ -8,6 +8,7 @@
     "dist/src/**/*"
   ],
   "scripts": {
+    "publish": "npm run build && npm publish",
     "build": "npx tsc -p .",
     "test": "npx jasmine-ts --config=\"jasmine.json\"",
     "test:watch": "nodemon --quiet --ext ts --exec 'npx jasmine-ts --config=\"jasmine.json\"'"
