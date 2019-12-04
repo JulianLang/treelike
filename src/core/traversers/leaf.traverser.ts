@@ -1,5 +1,6 @@
 import { isDefined } from '../shared';
-import { ObjectTreeNode, TraverseCallbackFn } from '../types';
+import { ConditionFn, ObjectTreeNode, TraverseCallbackFn } from '../types';
+
 /**
  * Traverses a tree leafwise and climbs it recursively up:
  * ~~~
@@ -12,14 +13,29 @@ import { ObjectTreeNode, TraverseCallbackFn } from '../types';
  * @param node The node to start traversing from.
  * @param onNext The callback to call for each node being traversed.
  */
-export function leafTraverser(node: ObjectTreeNode, onNext: TraverseCallbackFn): void {
-  for (const child of node.children) {
-    leafTraverser(child, onNext);
-    onNext(child);
+export function leafTraverser(
+  node: ObjectTreeNode,
+  onNext: TraverseCallbackFn,
+  breakWhen: ConditionFn = () => false,
+): void {
+  let breakLoop = false;
+
+  function leafTraverse(node: ObjectTreeNode, onNext: TraverseCallbackFn, breakWhen?: ConditionFn) {
+    for (const child of node.children) {
+      leafTraverse(child, onNext, breakWhen);
+
+      if (breakLoop || breakWhen!(child)) {
+        breakLoop = true;
+        break;
+      }
+
+      onNext(child);
+    }
+
+    if (!isDefined(node.parent) && !breakLoop) {
+      onNext(node);
+    }
   }
 
-  // also include root node:
-  if (!isDefined(node.parent)) {
-    onNext(node);
-  }
+  leafTraverse(node, onNext, breakWhen);
 }
