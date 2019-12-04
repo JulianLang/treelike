@@ -61,10 +61,7 @@ describe('leafTraverser', () => {
     leafTraverser(
       tree,
       node => orderOfNames.push(node.name as string),
-      node => {
-        console.log(node.name, node.name === '3');
-        return node.name === '3';
-      },
+      node => node.name === '3',
     );
 
     // assert
