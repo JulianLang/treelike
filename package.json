@@ -1,6 +1,6 @@
 {
   "name": "treelike",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "A library to convert objects into a tree-like structure.",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
