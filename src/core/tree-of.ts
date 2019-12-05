@@ -14,6 +14,7 @@ export function treeOf<T>(
     value,
     name: '$root',
     type: nodeTypeOf(value),
+    isRecursionRoot: false,
     children: [],
   };
   if (parent !== undefined) {
@@ -35,6 +36,7 @@ function buildNode(node: ObjectTreeNode<any>, selectChildFrom?: SelectorFn): voi
         value,
         name: nameOrIndex,
         type: nodeTypeOf(value),
+        isRecursionRoot: false,
         children: [],
       };
 

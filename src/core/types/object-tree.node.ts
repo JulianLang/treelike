@@ -3,6 +3,7 @@ export interface ObjectTreeNode<T = any> {
   name: string | number;
   type: ObjectTreeNodeType;
   children: ObjectTreeNode<any>[];
+  isRecursionRoot: boolean;
   value: T;
 }
 
