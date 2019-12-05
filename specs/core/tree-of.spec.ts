@@ -1,4 +1,4 @@
-import { treeOf } from '../tree-of';
+import { treeOf } from '../../src/core/tree-of';
 
 describe('treeOf', () => {
   it('should recognize objects', () => {
@@ -33,6 +33,22 @@ describe('treeOf', () => {
     testTreeOfFn(propertyName, aString, expectedType);
     testTreeOfFn(propertyName, aNumber, expectedType);
     testTreeOfFn(propertyName, aBool, expectedType);
+  });
+
+  fit('should handle recursion', () => {
+    // arrange
+    const obj: any = {};
+    obj.a = obj;
+
+    // assert, part 1
+    expect(() => treeOf(obj)).not.toThrow();
+
+    // act, part 2
+    const result = treeOf(obj);
+
+    // assert, part 2
+    expect(result.children[0]).toBe(result);
+    expect(result.children[0].isRecursionRoot).toBe(true);
   });
 });
 
