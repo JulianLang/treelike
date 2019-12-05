@@ -4,6 +4,8 @@ import { nodeTypeOf } from './shared';
 import { SelectorFn } from './types/child-selector.fn';
 import { ObjectTreeNode } from './types/object-tree.node';
 
+const knownValues: Map<any, ObjectTreeNode> = new Map();
+
 export function treeOf<T>(
   value: T,
   childSelector?: SelectorFn,
@@ -17,6 +19,7 @@ export function treeOf<T>(
     isRecursionRoot: false,
     children: [],
   };
+
   if (parent !== undefined) {
     addChild(node, parent);
   }
@@ -26,8 +29,8 @@ export function treeOf<T>(
   return node;
 }
 
-function buildNode(node: ObjectTreeNode<any>, selectChildFrom?: SelectorFn): void {
-  const childValue = selectChildFrom !== undefined ? selectChildFrom(node.value) : node.value;
+function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
+  const childValue = selectChild !== undefined ? selectChild(node.value) : node.value;
 
   if (canIterate(childValue)) {
     iterate(childValue, (value: any, nameOrIndex: string | number) => {
@@ -40,8 +43,30 @@ function buildNode(node: ObjectTreeNode<any>, selectChildFrom?: SelectorFn): voi
         children: [],
       };
 
-      buildNode(child, selectChildFrom);
-      node.children.push(child);
+      if (isValueRecursionRoot(value)) {
+        const recursiveNode = knownValues.get(value);
+        recursiveNode!.isRecursionRoot = true;
+        node.children.push(recursiveNode!);
+      } else {
+        knownValues.set(value, child);
+        buildNode(child, selectChild);
+        node.children.push(child);
+      }
     });
   }
+}
+
+/**
+ * Determines if a given value is a reference to an already built value. If this is the case,
+ * the function returns `true`, otherwise it returns `false`.
+ * @param value The value to check for being a recursion root.
+ */
+function isValueRecursionRoot(value: any): boolean {
+  // only check reference types, such as objects and arrays.
+  const type = nodeTypeOf(value);
+  if (type === 'value') {
+    return false;
+  }
+
+  return knownValues.has(value);
 }

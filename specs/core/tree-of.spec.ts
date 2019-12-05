@@ -35,7 +35,7 @@ describe('treeOf', () => {
     testTreeOfFn(propertyName, aBool, expectedType);
   });
 
-  fit('should handle recursion', () => {
+  it('should handle recursion', () => {
     // arrange
     const obj: any = {};
     obj.a = obj;
@@ -47,8 +47,9 @@ describe('treeOf', () => {
     const result = treeOf(obj);
 
     // assert, part 2
-    expect(result.children[0]).toBe(result);
     expect(result.children[0].isRecursionRoot).toBe(true);
+    expect(result.children[0].value).toBe(obj);
+    expect(result.value).toBe(obj);
   });
 });
 
