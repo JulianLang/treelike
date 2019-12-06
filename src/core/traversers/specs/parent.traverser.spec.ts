@@ -1,3 +1,4 @@
+import { defaultRootName } from '../../constants';
 import { treeOf } from '../../tree-of';
 import { ObjectTreeNode } from '../../types';
 import { findNode } from '../../util';
@@ -29,7 +30,6 @@ describe('parentTraverser', () => {
     });
 
     // assert
-    // '$root' is the default name for root node
-    expect(orderOfNames).toEqual(['1', '2', '3', '4', '$root']);
+    expect(orderOfNames).toEqual(['1', '2', '3', '4', defaultRootName]);
   });
 });

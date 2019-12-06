@@ -1,4 +1,5 @@
 import { treeOf } from '../../';
+import { defaultRootName } from '../../constants';
 import { ObjectTreeNode } from '../../types';
 import { findNode } from '../../util';
 import { siblingTraverser } from '../sibling.traverser';
@@ -29,8 +30,7 @@ describe('sibling with children traverser', () => {
     );
 
     // assert
-    // '$root' is the default name for root node
-    expect(orderOfNames).toEqual(['$root', '1', '2', '3', '4', '5', '6']);
+    expect(orderOfNames).toEqual([defaultRootName, '1', '2', '3', '4', '5', '6']);
   });
 
   it('should do not include start node if includeNode is false', () => {
@@ -60,7 +60,6 @@ describe('sibling with children traverser', () => {
     );
 
     // assert
-    // '$root' is the default name for root node
     expect(orderOfNames).toEqual(['1', '3', '4']);
   });
 });

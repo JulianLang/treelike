@@ -1,4 +1,5 @@
 import { canIterate, iterate } from '../core/iterators';
+import { defaultRootName } from './constants';
 import { addChild } from './operators';
 import { isUndefined, nodeTypeOf } from './shared';
 import { SelectorFn } from './types/child-selector.fn';
@@ -14,7 +15,7 @@ export function treeOf<T>(
   const node: ObjectTreeNode<T> = {
     parent,
     value,
-    name: '$root',
+    name: defaultRootName,
     type: nodeTypeOf(value),
     isRecursionRoot: false,
     children: [],

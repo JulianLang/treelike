@@ -52,7 +52,7 @@ describe('treeOf', () => {
     expect(result.value).toBe(level1Recursion);
   });
 
-  fit('should handle "level2"-recursions', () => {
+  it('should handle "level2"-recursions', () => {
     // arrange
     const level2Recursion: any = {
       a: {
@@ -65,7 +65,6 @@ describe('treeOf', () => {
     expect(() => treeOf(level2Recursion)).not.toThrow();
 
     // act, part 2
-
     const result = treeOf(level2Recursion);
 
     // assert, part 2
