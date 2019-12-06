@@ -1,7 +1,7 @@
 import { isDefined } from '../../src';
 
 describe('isDefined', () => {
-  it('should return true for null and undefined, false otherwise', () => {
+  it('should return false for null and undefined, false otherwise', () => {
     // arrange
     const fn = () => {};
     const string = 'str';
