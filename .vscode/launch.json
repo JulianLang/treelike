@@ -13,6 +13,16 @@
       "env": {
         "NODE_PATH": "."
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jasmine Debug Tests",
+      "program": "${workspaceRoot}/node_modules/jasmine-ts/lib/index.js",
+      "args": ["--reporter=jasmine-console-reporter", "--config=jasmine.json"],
+      "env": {
+        "NODE_PATH": "."
+      }
     }
   ]
 }
