@@ -1,6 +1,6 @@
 import { canIterate, iterate } from '../core/iterators';
 import { addChild } from './operators';
-import { nodeTypeOf } from './shared';
+import { isUndefined, nodeTypeOf } from './shared';
 import { SelectorFn } from './types/child-selector.fn';
 import { ObjectTreeNode } from './types/object-tree.node';
 
@@ -64,7 +64,7 @@ function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
 function isValueRecursionRoot(value: any): boolean {
   // only check reference types, such as objects and arrays.
   const type = nodeTypeOf(value);
-  if (type === 'value') {
+  if (type === 'value' || isUndefined(value)) {
     return false;
   }
 
