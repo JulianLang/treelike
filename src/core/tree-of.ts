@@ -25,6 +25,7 @@ export function treeOf<T>(
     addChild(node, parent);
   }
 
+  tryAddToKnownValues(value, node);
   buildNode(node, childSelector);
 
   return node;
@@ -45,15 +46,37 @@ function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
       };
 
       if (isValueRecursionRoot(value)) {
-        const recursiveNode = knownValues.get(value);
-        recursiveNode!.isRecursionRoot = true;
-        node.children.push(recursiveNode!);
+        /*
+          isValueRecursionRoot already determined that the value is contained in the knownValues-Map,
+          so we can guarantuee here that parentalNode is defined. Thus the trailing "!" operator after
+          knownValues.get(...) is correct in this case.
+        */
+        const parentalNode = knownValues.get(value)!;
+        parentalNode.isRecursionRoot = true;
+        node.children.push(parentalNode);
+
+        if (parentalNode.name === defaultRootName) {
+          parentalNode.name = nameOrIndex;
+        }
       } else {
-        knownValues.set(value, child);
+        tryAddToKnownValues(value, child);
         buildNode(child, selectChild);
         node.children.push(child);
       }
     });
+  }
+}
+
+/**
+ * Adds a given value along with its associated node to the knownValues map.
+ * @param value The value to be added as known.
+ * @param child The associated node for this value.
+ */
+function tryAddToKnownValues(value: any, child: ObjectTreeNode<any>) {
+  // only add reference types, such as objects and arrays.
+  const type = nodeTypeOf(value);
+  if (type !== 'value') {
+    knownValues.set(value, child);
   }
 }
 
@@ -63,9 +86,7 @@ function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
  * @param value The value to check for being a recursion root.
  */
 function isValueRecursionRoot(value: any): boolean {
-  // only check reference types, such as objects and arrays.
-  const type = nodeTypeOf(value);
-  if (type === 'value' || isUndefined(value)) {
+  if (isUndefined(value)) {
     return false;
   }
 

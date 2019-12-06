@@ -1,3 +1,4 @@
+import { defaultRootName } from '../../src/core/constants';
 import { treeOf } from '../../src/core/tree-of';
 
 describe('treeOf', () => {
@@ -71,6 +72,26 @@ describe('treeOf', () => {
     expect(result.children[0].children[1].isRecursionRoot).toBe(true);
     expect(result.children[0].children[1].value).toBe(level2Recursion);
     expect(result.value).toBe(level2Recursion);
+  });
+
+  fit('should override only $root name when it is a recursion target', () => {
+    // arrange
+    const obj: any = {
+      a: {},
+      c: {
+        x: true,
+      },
+    };
+    obj.a.b = obj; // obj is $root in tree
+    obj.c.b = obj.c; // obj.c is not $root in tree, don't rename
+
+    // act
+    const result = treeOf(obj);
+
+    // assert
+    expect(result.name).not.toBe(defaultRootName);
+    expect(result.name).toBe('b');
+    expect(result.children[1].name).toBe('c');
   });
 });
 
