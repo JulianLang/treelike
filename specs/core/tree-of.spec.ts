@@ -35,21 +35,43 @@ describe('treeOf', () => {
     testTreeOfFn(propertyName, aBool, expectedType);
   });
 
-  it('should handle recursion', () => {
+  it('should handle "level1"-recursions', () => {
     // arrange
-    const obj: any = {};
-    obj.a = obj;
+    const level1Recursion: any = {};
+    level1Recursion.a = level1Recursion;
 
     // assert, part 1
-    expect(() => treeOf(obj)).not.toThrow();
+    expect(() => treeOf(level1Recursion)).not.toThrow();
 
     // act, part 2
-    const result = treeOf(obj);
+    const result = treeOf(level1Recursion);
 
     // assert, part 2
     expect(result.children[0].isRecursionRoot).toBe(true);
-    expect(result.children[0].value).toBe(obj);
-    expect(result.value).toBe(obj);
+    expect(result.children[0].value).toBe(level1Recursion);
+    expect(result.value).toBe(level1Recursion);
+  });
+
+  fit('should handle "level2"-recursions', () => {
+    // arrange
+    const level2Recursion: any = {
+      a: {
+        b: true,
+      },
+    };
+    level2Recursion.a.c = level2Recursion;
+
+    // assert, part 1
+    expect(() => treeOf(level2Recursion)).not.toThrow();
+
+    // act, part 2
+
+    const result = treeOf(level2Recursion);
+
+    // assert, part 2
+    expect(result.children[0].children[1].isRecursionRoot).toBe(true);
+    expect(result.children[0].children[1].value).toBe(level2Recursion);
+    expect(result.value).toBe(level2Recursion);
   });
 });
 
