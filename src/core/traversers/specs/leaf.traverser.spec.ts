@@ -1,3 +1,4 @@
+import { defaultRootName } from '../../constants';
 import { treeOf } from '../../tree-of';
 import { leafTraverser } from '../leaf.traverser';
 
@@ -23,7 +24,7 @@ describe('leafTraverser', () => {
     });
 
     // assert
-    expect(orderOfNames).toEqual(['1', '2', '3', '4', '5', '6', '$root']);
+    expect(orderOfNames).toEqual(['1', '2', '3', '4', '5', '6', defaultRootName]);
   });
 
   it('should reach leafs when tree has only two levels', () => {
@@ -41,7 +42,7 @@ describe('leafTraverser', () => {
     });
 
     // assert
-    expect(orderOfNames).toEqual(['1', '2', '$root']);
+    expect(orderOfNames).toEqual(['1', '2', defaultRootName]);
   });
 
   it('should break on a given condition', () => {
