@@ -74,7 +74,7 @@ describe('treeOf', () => {
     expect(result.value).toBe(level2Recursion);
   });
 
-  fit('should override only $root name when it is a recursion target', () => {
+  it('should override only $root name when it is a recursion target', () => {
     // arrange
     const obj: any = {
       a: {},
