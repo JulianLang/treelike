@@ -1,7 +1,20 @@
 import { nodeTypeOf } from './shared';
 import { ObjectTreeNode } from './types';
 
-export function toValue<T = any>(node: ObjectTreeNode, alreadySeenValues = new Set()): T {
+/**
+ * Converts a node back into the value it represents.
+ * @param node The node to convert back into a value.
+ */
+export function toValue<T = any>(node: ObjectTreeNode): T {
+  return convertToValue(node, new Set());
+}
+
+/**
+ * Converts a node back into the value it represents.
+ * @param node The node to convert back into a value.
+ * @param alreadySeenValues A set of objects already seen in conversion process.
+ */
+function convertToValue(node: ObjectTreeNode, alreadySeenValues: Set<any>): any {
   if (alreadySeenValues.has(node.value)) {
     return node.value;
   }
@@ -29,7 +42,7 @@ function toArrayValue(node: ObjectTreeNode<any[]>, alreadySeenValues: Set<any>):
   const result: any[] = [];
 
   for (const child of node.children) {
-    const value = toValue(child, alreadySeenValues);
+    const value = convertToValue(child, alreadySeenValues);
     result.push(value);
   }
 
@@ -40,7 +53,7 @@ function toObjectValue(node: ObjectTreeNode<object>, alreadySeenValues: Set<any>
   const result: any = {};
 
   for (const child of node.children) {
-    result[child.name] = toValue(child, alreadySeenValues);
+    result[child.name] = convertToValue(child, alreadySeenValues);
   }
 
   return result;
