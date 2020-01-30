@@ -1,7 +1,7 @@
 import { createNode } from '../../src';
 import { defaultRootName, toValue, treeOf } from '../../src/core';
 
-fdescribe('toValue', () => {
+describe('toValue', () => {
   [0, false, () => {}, '', {}, []].forEach(value => {
     it(`should convert node-value ${value} into a value`, () => {
       // arrange
