@@ -84,7 +84,7 @@ describe('toValue', () => {
     expect(selector).toHaveBeenCalledTimes(1);
   });
 
-  it('should only output values targeted by selector fn', () => {
+  it('should only output values targeted by selector fn (objects)', () => {
     // arrange
     const node = treeOf({
       shop: {
@@ -105,5 +105,24 @@ describe('toValue', () => {
     // assert
     expect(result.shop).toEqual({ amount: 42 });
     expect(result.other).toEqual({ bar: 0 });
+  });
+
+  it('should only output values targeted by selector fn (arrays)', () => {
+    // arrange
+    const node = treeOf([
+      {
+        x: { a: 42 },
+      },
+      { b: 0 },
+    ]);
+
+    // act
+    const result = toValue(node, node => {
+      return node.name === 0 ? node.children[0] : node;
+    });
+
+    // assert
+    expect(result[0]).toEqual({ a: 42 });
+    expect(result[1]).toEqual({ b: 0 });
   });
 });
