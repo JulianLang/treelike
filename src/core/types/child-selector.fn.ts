@@ -1,1 +1,1 @@
-export type SelectorFn = (input: any) => any;
+export type SelectorFn<T = any> = (input: T) => T;

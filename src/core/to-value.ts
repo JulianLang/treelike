@@ -1,59 +1,79 @@
 import { nodeTypeOf } from './shared';
-import { ObjectTreeNode } from './types';
+import { ObjectTreeNode, SelectorFn } from './types';
 
 /**
  * Converts a node back into the value it represents.
  * @param node The node to convert back into a value.
  */
-export function toValue<T = any>(node: ObjectTreeNode): T {
-  return convertToValue(node, new Set());
+export function toValue<T = any>(node: ObjectTreeNode, selectChild?: SelectorFn): T {
+  const identityFn = (value: any) => value;
+  const childSelector = selectChild || identityFn;
+
+  return convertToValue(node, new Set(), childSelector);
 }
 
 /**
  * Converts a node back into the value it represents.
  * @param node The node to convert back into a value.
  * @param alreadySeenValues A set of objects already seen in conversion process.
+ * @param selectChild A function selecting child-nodes from a given node.
  */
-function convertToValue(node: ObjectTreeNode, alreadySeenValues: Set<any>): any {
-  if (alreadySeenValues.has(node.value)) {
-    return node.value;
+function convertToValue(
+  node: ObjectTreeNode,
+  alreadySeenValues: Set<any>,
+  selectChild: SelectorFn<ObjectTreeNode>,
+): any {
+  const targetNode = selectChild(node);
+
+  if (alreadySeenValues.has(targetNode.value)) {
+    return targetNode.value;
   }
 
-  alreadySeenValues.add(node.value);
-  const type = nodeTypeOf(node.value);
+  alreadySeenValues.add(targetNode.value);
+  const type = nodeTypeOf(targetNode.value);
   let result: any;
 
   switch (type) {
     case 'array':
-      result = toArrayValue(node, alreadySeenValues);
+      result = toArrayValue(targetNode, alreadySeenValues, selectChild);
       break;
     case 'object':
-      result = toObjectValue(node, alreadySeenValues);
+      result = toObjectValue(targetNode, alreadySeenValues, selectChild);
       break;
     default:
-      result = node.value;
+      result = targetNode.value;
       break;
   }
 
   return result;
 }
 
-function toArrayValue(node: ObjectTreeNode<any[]>, alreadySeenValues: Set<any>): any[] {
+function toArrayValue(
+  node: ObjectTreeNode<any[]>,
+  alreadySeenValues: Set<any>,
+  selectChild: SelectorFn<ObjectTreeNode>,
+): any[] {
   const result: any[] = [];
 
   for (const child of node.children) {
-    const value = convertToValue(child, alreadySeenValues);
+    const selectedChild = selectChild(child);
+    const value = convertToValue(selectedChild, alreadySeenValues, selectChild);
     result.push(value);
   }
 
   return result;
 }
 
-function toObjectValue(node: ObjectTreeNode<object>, alreadySeenValues: Set<any>): object {
+function toObjectValue(
+  node: ObjectTreeNode<object>,
+  alreadySeenValues: Set<any>,
+  selectChild: SelectorFn<ObjectTreeNode>,
+): object {
   const result: any = {};
 
   for (const child of node.children) {
-    result[child.name] = convertToValue(child, alreadySeenValues);
+    const selectedChild = selectChild(child);
+    result[selectedChild.name] = convertToValue(selectedChild, alreadySeenValues, selectChild);
   }
 
   return result;
