@@ -1,7 +1,7 @@
 import { canIterate, iterate } from '../core/iterators';
+import { isUndefined, nodeTypeOf } from '../shared';
 import { defaultRootName } from './constants';
 import { addChild } from './operators';
-import { isUndefined, nodeTypeOf } from './shared';
 import { SelectorFn } from './types/child-selector.fn';
 import { ObjectTreeNode } from './types/object-tree.node';
 

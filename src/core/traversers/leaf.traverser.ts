@@ -1,4 +1,4 @@
-import { isDefined } from '../shared';
+import { isDefined } from '../../shared';
 import { ConditionFn, ObjectTreeNode, TraverseCallbackFn } from '../types';
 
 /**

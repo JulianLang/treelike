@@ -1,4 +1,4 @@
-import { nodeTypeOf } from '../shared';
+import { nodeTypeOf } from '../../shared';
 import { ObjectTreeNode } from '../types';
 
 export function createNode<T>(

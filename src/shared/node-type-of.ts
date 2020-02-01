@@ -1,4 +1,4 @@
-import { ObjectTreeNodeType } from '../types';
+import { ObjectTreeNodeType } from '../core/types';
 
 export function nodeTypeOf(value: any): ObjectTreeNodeType {
   let type: ObjectTreeNodeType;
