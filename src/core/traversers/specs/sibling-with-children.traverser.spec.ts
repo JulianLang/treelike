@@ -26,7 +26,8 @@ describe('sibling with children traverser', () => {
       node => {
         orderOfNames.push(node.name as string);
       },
-      true,
+      /* includeEntryNode */ true,
+      /* inludeChildren */ true,
     );
 
     // assert
@@ -55,8 +56,8 @@ describe('sibling with children traverser', () => {
       node => {
         orderOfNames.push(node.name as string);
       },
-      false,
-      true,
+      /* includeEntryNode */ false,
+      /* inludeChildren */ true,
     );
 
     // assert
