@@ -238,6 +238,77 @@ traverse(rootNode, node => console.log(node), myCustomTraverser);
 
 ---
 
+### findNode
+
+`findNode(root: ObjectTreeNode, condition: ConditionFn, strategy = treeTraverser): ObjectTreeNode | undefined`
+
+Tries to find a node within the given tree-`root`, that satisfies the condition specified by a `ConditionFn`. Additionally accepts a `TraverserFn`, defining how to traverse the given tree. It returns the first match being found.
+
+| Parameter   | Type                            | Description                                                               |
+| :---------- | :------------------------------ | :------------------------------------------------------------------------ |
+| root        | `ObjectTreeNode`                | A root-node representing the tree to find the specified node on.          |
+| condition   | `ConditionFn`                   | The function deciding which `ObjectTreeNode` matches the search criteria. |
+| strategy    | `TraverserFn`.                  | (Optional) The strategy to use for traversing the given tree.             |
+| **returns** | `ObjectTreeNode` \| `undefined` | The first `ObjectTreeNode` matching the search criteria.                  |
+
+**Example**
+
+```ts
+const tree = treeOf({
+  a: true,
+  b: 42,
+  c: ['str', null],
+});
+
+const nodeA = findNode(tree, node => node.name === 'a');
+// => finds node for property "a"
+const nodeB = findNode(tree, node => node.value === 42);
+// => finds node for property "b"
+
+const nodeSecondItem = findNode(tree, node => {
+  // index 1 = second item of an array
+  const isSecondItem = node.name === 1;
+  const isChildOfC = node.parent && node.parent.name === 'c';
+
+  return isChildOfC && isSecondItem;
+}); // => finds node for property "c[1]"
+```
+
+---
+
+### findNodes
+
+`findNodes(root: ObjectTreeNode, condition: ConditionFn, strategy = treeTraverser): ObjectTreeNode[]`
+
+Tries to find nodes within the given tree-`root`, that satisfy the condition specified by a `ConditionFn`. Additionally accepts a `TraverserFn`, defining how to traverse the given tree. It returns all matches being found.
+
+| Parameter   | Type               | Description                                                              |
+| :---------- | :----------------- | :----------------------------------------------------------------------- |
+| root        | `ObjectTreeNode`   | A root-node representing the tree to find the specified nodes on.        |
+| condition   | `ConditionFn`      | The function deciding which `ObjectTreeNode`s match the search criteria. |
+| strategy    | `TraverserFn`.     | (Optional) The strategy to use for traversing the given tree.            |
+| **returns** | `ObjectTreeNode[]` | All `ObjectTreeNode`s matching the search criteria.                      |
+
+**Example**
+
+```ts
+const tree = treeOf({
+  a: true,
+  b: 42,
+  c: ['str', null],
+});
+
+const nodeSecondItem = findNode(tree, node => {
+  const isNumber = typeof node.value === 'number';
+  // index 1 = second item of an array
+  const isSecondItem = node.name === 1;
+
+  return isNumber || isSecondItem;
+}); // => finds node for  "b" and "c[1]"
+```
+
+---
+
 ### createNode
 
 `createNode(name: string, value: any, children?: ObjectTreeNode[], parent?: ObjectTreeNode): ObjectTreeNode`
@@ -254,20 +325,41 @@ Creates a new `ObjectTreeNode` with the specified properties. When using this me
 
 #### About the `type` property
 
-The type abstracts the type of the property on the original object. Valid values for the `type`-property are: `'object'`, `'array'` and `'value'`.
+The `type`-property reflects the type of the node's `value`. Valid values for the `type`-property are: `'object'`, `'array'` and `'value'`.
 
-**Example**
+---
+
+**Please Note:** When manually changing the `value` of a node, the `type`-property **does not** get automatically updated. You can use the `nodeTypeOf` function for this.
+
+**Example: `nodeTypeOf`**
 
 ```ts
 const obj = {
-  a: [], // type: 'array'
-  b: {}, // type: 'object'
-  c: 1, // type: 'value'
-  d: true, // type: 'value'
-  e: 'str', // type: 'value'
-  f: () => {}, // type: 'value'
+  a: [],
+  b: {},
+  c: 1,
+  d: true,
+  e: 'str',
+  f: () => {},
 };
+
+const root = treeOf(obj);
+
+nodeTypeOf(findNode(root, n => n.name === 'a')); // 'array'
+nodeTypeOf(findNode(root, n => n.name === 'b')); // 'object'
+nodeTypeOf(findNode(root, n => n.name === 'c')); // 'value'
+nodeTypeOf(findNode(root, n => n.name === 'd')); // 'value'
+nodeTypeOf(findNode(root, n => n.name === 'e')); // 'value'
+nodeTypeOf(findNode(root, n => n.name === 'f')); // 'value'
 ```
+
+---
+
+### nodeTypeOf
+
+`nodeTypeOf(value: any): ObjectTreeNodeType`
+
+Returns the `ObjectTreeNodeType` for the specified value.
 
 ---
 
@@ -391,6 +483,69 @@ replace(child1, child2);
 
 ## Types and Interfaces
 
-### TraverseCallbackFn
+### `ObjectTreeNodeType`
 
-`type TraverseCallbackFn = (node: ObjectTreeNode) => void;`
+Defines possible types of `ObjectTreeNode`s. The type gets deduced by the type of an `ObjectTreeNode`'s value.
+
+`type ObjectTreeNodeType = 'object' | 'array' | 'value';`
+
+> **Important:** When changing the `value` of an `ObjectTreeNode`, the `type`-property does not automatically get updated.
+> This is a responsibility of the value-changing code.
+
+---
+
+### `ObjectTreeNode<T>`
+
+The interface describing a node as produced by `treeOf` function.
+
+```ts
+interface ObjectTreeNode<T = any> {
+  parent?: ObjectTreeNode<any>;
+  name: string | number;
+  type: ObjectTreeNodeType;
+  children: ObjectTreeNode<any>[];
+  isRecursionRoot: boolean;
+  value: T;
+}
+```
+
+| Property        | Type                  | Description                                                                                        |
+| :-------------- | :-------------------- | :------------------------------------------------------------------------------------------------- |
+| name            | `string` \| `number`  | The name of the node. Represents an item index or property name, based on the `node.type`-property |
+| value           | `T` defaults to `any` | The value that the node represents.                                                                |
+| type            | `ObjectTreeNodeType`  | The node's `ObjectTreeNodeType`. It reflects the type of `node.value`.                             |
+| parent          | `ObjectTreeNode`      | The node's parent node. If `undefined`, the node is the root node of a tree.                       |
+| children        | `ObjectTreeNode[]`    | The node's child nodes.                                                                            |
+| isRecursionRoot | `boolean`             | Whether the node is the root-node of a recursive (sub)-tree.                                       |
+
+---
+
+### `TraverserFn`
+
+A function that receives an `ObjectTreeNode`, traverses it and calls a `TraverseCallbackFn´ for each traversed node.
+
+`type TraverserFn = (node: ObjectTreeNode, onNext: TraverseCallbackFn) => void`
+
+---
+
+### `TraverseCallbackFn`
+
+A callback function that receives every node being traversed.
+
+`type TraverseCallbackFn = (node: ObjectTreeNode) => void`
+
+---
+
+### `SelectorFn<T>`
+
+A function that receives an input (of type `any` for `treeOf` and `ObjectTreeNode` for `toValue`) and computes values that should be used as children (in node context).
+
+`type SelectorFn<T = any> = (input: T) => T`
+
+---
+
+### `ConditionFn`
+
+A function that receives an input of type `ObjectTreeNode` and computes a boolean value from it. It represents a condition that is based ont a `ObjectTreeNode`.
+
+`type ConditionFn = (node: ObjectTreeNode) => boolean`
