@@ -19,21 +19,28 @@ export function siblingTraverser(
   node: ObjectTreeNode,
   onNext: TraverseCallbackFn,
   includeEntryNode = false,
-  includeChildren = true,
+  includeChildren = false,
 ): void {
   if (node == null) {
     return;
   }
 
-  const target: ObjectTreeNode[] = node.parent != null ? node.parent.children : [node];
-  enumerateSiblings(target, node, onNext, includeEntryNode, includeChildren);
+  let targetNodes: ObjectTreeNode[] = [];
+
+  if (node.parent != null) {
+    targetNodes = node.parent.children;
+  } else if (includeEntryNode) {
+    targetNodes = [node];
+  }
+
+  enumerateSiblings(targetNodes, node, onNext, includeEntryNode, includeChildren);
 }
 
 function enumerateSiblings(
   siblings: ObjectTreeNode[],
   entryNode: ObjectTreeNode,
   onNext: TraverseCallbackFn,
-  includeNode: boolean,
+  includeEntryNode: boolean,
   includeChildren: boolean,
 ) {
   let children: any[] = [];
@@ -41,13 +48,13 @@ function enumerateSiblings(
   for (const sibling of siblings) {
     const shouldInlcude = sibling !== entryNode && sibling.parent !== entryNode;
 
-    if (includeNode || shouldInlcude) {
+    if (includeEntryNode || shouldInlcude) {
       onNext(sibling);
       children = children.concat(sibling.children);
     }
   }
 
   if (includeChildren && children.length > 0) {
-    enumerateSiblings(children, entryNode, onNext, includeNode, includeChildren);
+    enumerateSiblings(children, entryNode, onNext, includeEntryNode, includeChildren);
   }
 }
