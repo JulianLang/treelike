@@ -55,6 +55,22 @@ const rootNode = treeOf(obj);
 
 ---
 
+### toValue
+
+`toValue(node: ObjectTreeNode, selectChild?: SelectorFn<ObjectTreeNode>): ObjectTreeNode`
+
+The `toValue` function is the opposite of `treeOf`, as it converts a treelike structure back into the value it represents.
+
+```ts
+const obj = { a: 1, b: false, c: [{}, 'str'] };
+
+const rootNode = treeOf(obj);
+const value = toValue(rootNode);
+// => { a: 1, b: false, c: [{}, 'str'] }
+```
+
+---
+
 ### traverse
 
 `traverse(startNode: ObjectTreeNode, callback: TraverseCallbackFn, strategy?: TraverserFn)`
@@ -73,7 +89,7 @@ Traverses the tree from the given startNode and calls the callback function for 
   - `siblingAndSelfWithChildrenTraverser`: iterates over all siblings of the _startNode_ including the _startNode_ itself. Also recursively finds and iterates all children of the siblings and the _startNode_.
 
   ```ts
-  import { treeOf, traverse, childTraverser } from 'object-as-tree';
+  import { treeOf, traverse, childTraverser } from 'treelike';
 
   const rootNode = treeOf(someObj);
   // third parameter of traverse is the strategy, here we use childTraverser:
@@ -83,7 +99,7 @@ Traverses the tree from the given startNode and calls the callback function for 
 - Write your custom one:
 
   ```ts
-  import { treeOf, traverse, ObjectTreeNode, TraverserCallbackFn } from 'object-as-tree';
+  import { treeOf, traverse, ObjectTreeNode, TraverserCallbackFn } from 'treelike';
 
   function myCustomTraverser(node: ObjectTreeNode, onNext: TraverserCallbackFn): void {
     // node is the startNode, use it as entry point to traverse.
