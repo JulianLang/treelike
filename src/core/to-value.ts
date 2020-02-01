@@ -8,8 +8,9 @@ import { ObjectTreeNode, SelectorFn } from './types';
 export function toValue<T = any>(node: ObjectTreeNode, selectChild?: SelectorFn): T {
   const identityFn = (value: any) => value;
   const childSelector = selectChild || identityFn;
+  const result = convertToValue(node, new Set(), childSelector);
 
-  return convertToValue(node, new Set(), childSelector);
+  return result;
 }
 
 /**
