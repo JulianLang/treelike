@@ -1,4 +1,3 @@
-export * from '../shared';
 export * from './constants';
 export * from './iterators';
 export * from './operators';
