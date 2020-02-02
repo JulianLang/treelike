@@ -7,7 +7,7 @@ describe('addNewChild', () => {
     // arrange
     const parent = createNode('parent', {});
     const name = 'new-child';
-    const children: ObjectTreeNode<any>[] = [];
+    const children: ObjectTreeNode[] = [];
     const value = {};
     // act
     addNewChild(parent, name, value, children);

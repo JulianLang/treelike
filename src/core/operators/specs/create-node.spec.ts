@@ -6,8 +6,8 @@ describe('createNode', () => {
     // arrange
     const name = 'name';
     const value = {};
-    const children: ObjectTreeNode<any>[] = [];
-    const parent: ObjectTreeNode<Object> = {
+    const children: ObjectTreeNode[] = [];
+    const parent: ObjectTreeNode = {
       name: 'parent',
       children: [],
       type: 'object',

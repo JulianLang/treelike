@@ -1,23 +1,29 @@
 import { ObjectTreeNode, TraverseCallbackFn } from '../types';
 
-export function siblingAndSelfTraverser(node: ObjectTreeNode, onNext: TraverseCallbackFn) {
+export function siblingAndSelfTraverser<T extends ObjectTreeNode>(
+  node: T,
+  onNext: TraverseCallbackFn<T>,
+) {
   siblingTraverser(node, onNext, true, false);
 }
 
-export function siblingAndSelfWithChildrenTraverser(
-  node: ObjectTreeNode,
-  onNext: TraverseCallbackFn,
+export function siblingAndSelfWithChildrenTraverser<T extends ObjectTreeNode>(
+  node: T,
+  onNext: TraverseCallbackFn<T>,
 ) {
   siblingTraverser(node, onNext, true, true);
 }
 
-export function siblingWithChildrenTraverser(node: ObjectTreeNode, onNext: TraverseCallbackFn) {
+export function siblingWithChildrenTraverser<T extends ObjectTreeNode>(
+  node: T,
+  onNext: TraverseCallbackFn<T>,
+) {
   siblingTraverser(node, onNext, false, true);
 }
 
-export function siblingTraverser(
-  node: ObjectTreeNode,
-  onNext: TraverseCallbackFn,
+export function siblingTraverser<T extends ObjectTreeNode>(
+  node: T,
+  onNext: TraverseCallbackFn<T>,
   includeEntryNode = false,
   includeChildren = false,
 ): void {
@@ -25,7 +31,7 @@ export function siblingTraverser(
     return;
   }
 
-  let targetNodes: ObjectTreeNode[] = [];
+  let targetNodes: T[] = [];
 
   if (node.parent != null) {
     targetNodes = node.parent.children;
@@ -36,10 +42,10 @@ export function siblingTraverser(
   enumerateSiblings(targetNodes, node, onNext, includeEntryNode, includeChildren);
 }
 
-function enumerateSiblings(
-  siblings: ObjectTreeNode[],
-  entryNode: ObjectTreeNode,
-  onNext: TraverseCallbackFn,
+function enumerateSiblings<T extends ObjectTreeNode>(
+  siblings: T[],
+  entryNode: T,
+  onNext: TraverseCallbackFn<T>,
   includeEntryNode: boolean,
   includeChildren: boolean,
 ) {

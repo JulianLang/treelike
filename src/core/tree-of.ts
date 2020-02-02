@@ -10,9 +10,9 @@ const knownValues: Map<any, ObjectTreeNode> = new Map();
 export function treeOf<T>(
   value: T,
   childSelector?: SelectorFn,
-  parent: ObjectTreeNode<any> | undefined = undefined,
+  parent: ObjectTreeNode | undefined = undefined,
 ): ObjectTreeNode<T> {
-  const node: ObjectTreeNode<T> = {
+  const node: ObjectTreeNode = {
     parent,
     value,
     name: defaultRootName,
@@ -31,12 +31,12 @@ export function treeOf<T>(
   return node;
 }
 
-function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
+function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
   const childValue = selectChild !== undefined ? selectChild(node.value) : node.value;
 
   if (canIterate(childValue)) {
     iterate(childValue, (value: any, nameOrIndex: string | number) => {
-      const child: ObjectTreeNode<any> = {
+      const child: ObjectTreeNode = {
         parent: node,
         value,
         name: nameOrIndex,
@@ -72,7 +72,7 @@ function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
  * @param value The value to be added as known.
  * @param child The associated node for this value.
  */
-function tryAddToKnownValues(value: any, child: ObjectTreeNode<any>) {
+function tryAddToKnownValues<T extends ObjectTreeNode>(value: any, child: T) {
   // only add reference types, such as objects and arrays.
   const type = nodeTypeOf(value);
   if (type !== 'value') {

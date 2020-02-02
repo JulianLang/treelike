@@ -19,10 +19,10 @@ export function toValue<T = any>(node: ObjectTreeNode, selectChild?: SelectorFn)
  * @param alreadySeenValues A set of objects already seen in conversion process.
  * @param selectChild A function selecting child-nodes from a given node.
  */
-function convertToValue(
-  node: ObjectTreeNode,
+function convertToValue<T extends ObjectTreeNode>(
+  node: T,
   alreadySeenValues: Set<any>,
-  selectChild: SelectorFn<ObjectTreeNode>,
+  selectChild: SelectorFn<T>,
 ): any {
   const targetNode = selectChild(node);
 
@@ -49,10 +49,10 @@ function convertToValue(
   return result;
 }
 
-function toArrayValue(
-  node: ObjectTreeNode<any[]>,
+function toArrayValue<T extends ObjectTreeNode>(
+  node: T,
   alreadySeenValues: Set<any>,
-  selectChild: SelectorFn<ObjectTreeNode>,
+  selectChild: SelectorFn<T>,
 ): any[] {
   const result: any[] = [];
 
@@ -65,10 +65,10 @@ function toArrayValue(
   return result;
 }
 
-function toObjectValue(
-  node: ObjectTreeNode<object>,
+function toObjectValue<T extends ObjectTreeNode>(
+  node: T,
   alreadySeenValues: Set<any>,
-  selectChild: SelectorFn<ObjectTreeNode>,
+  selectChild: SelectorFn<T>,
 ): object {
   const result: any = {};
 

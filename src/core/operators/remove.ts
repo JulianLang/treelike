@@ -1,8 +1,8 @@
 import { ObjectTreeNode } from '../types';
 
-export function remove(
-  node: ObjectTreeNode<any>,
-  parent: ObjectTreeNode<any> | undefined = node.parent,
+export function remove<T extends ObjectTreeNode>(
+  node: T,
+  parent: T | undefined = node.parent,
 ): number {
   if (parent === undefined) {
     throw new Error(`Cannot remove node from parent, when parent is undefined.`);

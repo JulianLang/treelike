@@ -17,7 +17,7 @@ describe('siblingTraverser', () => {
       },
     };
     const root = treeOf(obj);
-    const startNode = findNode(root, n => n.name === 'startNode') as ObjectTreeNode<any>;
+    const startNode = findNode(root, n => n.name === 'startNode') as ObjectTreeNode;
     const orderOfNames: string[] = [];
 
     // act

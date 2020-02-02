@@ -13,14 +13,18 @@ import { ConditionFn, ObjectTreeNode, TraverseCallbackFn } from '../types';
  * @param node The node to start traversing from.
  * @param onNext The callback to call for each node being traversed.
  */
-export function leafTraverser(
-  node: ObjectTreeNode,
-  onNext: TraverseCallbackFn,
+export function leafTraverser<T extends ObjectTreeNode>(
+  node: T,
+  onNext: TraverseCallbackFn<T>,
   breakWhen: ConditionFn = () => false,
 ): void {
   let breakLoop = false;
 
-  function leafTraverse(node: ObjectTreeNode, onNext: TraverseCallbackFn, breakWhen?: ConditionFn) {
+  function leafTraverse<T extends ObjectTreeNode>(
+    node: T,
+    onNext: TraverseCallbackFn<T>,
+    breakWhen?: ConditionFn,
+  ) {
     for (const child of node.children) {
       leafTraverse(child, onNext, breakWhen);
 

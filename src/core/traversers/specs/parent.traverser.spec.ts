@@ -21,7 +21,7 @@ describe('parentTraverser', () => {
       },
     };
     const rootNode = treeOf(obj);
-    const startNode = findNode(rootNode, n => n.name === 'startNode') as ObjectTreeNode<any>;
+    const startNode = findNode(rootNode, n => n.name === 'startNode') as ObjectTreeNode;
     const orderOfNames: string[] = [];
 
     // act

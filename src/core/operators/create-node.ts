@@ -4,9 +4,9 @@ import { ObjectTreeNode } from '../types';
 export function createNode<T>(
   name: string | number,
   value: T,
-  children: ObjectTreeNode<any>[] = [],
-  parent?: ObjectTreeNode<any>,
-): ObjectTreeNode<T> {
+  children: ObjectTreeNode[] = [],
+  parent?: ObjectTreeNode,
+): ObjectTreeNode {
   return {
     name,
     value,
