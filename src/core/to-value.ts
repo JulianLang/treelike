@@ -1,4 +1,3 @@
-import { nodeTypeOf } from '../shared';
 import { ObjectTreeNode, SelectorFn } from './types';
 
 /**
@@ -31,10 +30,9 @@ function convertToValue<T extends ObjectTreeNode>(
   }
 
   alreadySeenValues.add(targetNode.value);
-  const type = nodeTypeOf(targetNode.value);
   let result: any;
 
-  switch (type) {
+  switch (targetNode.type) {
     case 'array':
       result = toArrayValue(targetNode, alreadySeenValues, selectChild);
       break;
