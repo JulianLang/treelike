@@ -36,7 +36,7 @@ describe('treeOf', () => {
     testTreeOfFn(propertyName, aBool, expectedType);
   });
 
-  fit('should handle "level1"-recursions', () => {
+  it('should handle "level1"-recursions', () => {
     // arrange
     const level1Recursion: any = {};
     level1Recursion.a = level1Recursion;

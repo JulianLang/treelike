@@ -50,8 +50,7 @@ function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
           knownValues.get(...) is correct in this case.
         */
         const parentalNode = knownValues.get(value)!;
-        parentalNode.recursesTo =
-          parentalNode.name + ' => ' + child.name + ' => ' + parentalNode.name;
+        parentalNode.recursesTo = getRecursionPath(parentalNode, child);
         node.children.push(parentalNode);
 
         if (parentalNode.name === defaultRootName) {
@@ -64,6 +63,30 @@ function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
       }
     });
   }
+}
+
+function getRecursionPath(
+  parentalNode: ObjectTreeNode<any>,
+  child: ObjectTreeNode<any>,
+): string | number | undefined {
+  const path: any[] = [];
+  let node: ObjectTreeNode | undefined = child;
+
+  while (node) {
+    path.push(node.name);
+
+    if (node.parent === parentalNode) {
+      break;
+    }
+
+    node = node!.parent;
+  }
+
+  path.push(parentalNode.name);
+  const reversed = path.reverse();
+  reversed.push(parentalNode.name);
+
+  return path.join(' => ');
 }
 
 /**
