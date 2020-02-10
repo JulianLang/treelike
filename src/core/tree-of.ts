@@ -17,7 +17,6 @@ export function treeOf<T>(
     value,
     name: defaultRootName,
     type: nodeTypeOf(value),
-    isRecursionRoot: false,
     children: [],
   };
 
@@ -41,7 +40,6 @@ function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
         value,
         name: nameOrIndex,
         type: nodeTypeOf(value),
-        isRecursionRoot: false,
         children: [],
       };
 
@@ -52,7 +50,8 @@ function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
           knownValues.get(...) is correct in this case.
         */
         const parentalNode = knownValues.get(value)!;
-        parentalNode.isRecursionRoot = true;
+        parentalNode.recursesTo =
+          parentalNode.name + ' => ' + child.name + ' => ' + parentalNode.name;
         node.children.push(parentalNode);
 
         if (parentalNode.name === defaultRootName) {

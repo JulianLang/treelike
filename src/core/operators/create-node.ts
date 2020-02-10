@@ -12,7 +12,6 @@ export function createNode<T>(
     value,
     children,
     parent,
-    isRecursionRoot: false,
     type: nodeTypeOf(value),
   };
 }

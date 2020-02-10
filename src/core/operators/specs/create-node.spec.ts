@@ -11,7 +11,6 @@ describe('createNode', () => {
       name: 'parent',
       children: [],
       type: 'object',
-      isRecursionRoot: false,
       value: {},
     };
 

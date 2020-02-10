@@ -3,7 +3,7 @@ export interface ObjectTreeNode<T = any> {
   name: string | number;
   type: ObjectTreeNodeType;
   children: this[];
-  isRecursionRoot: boolean;
+  recursesTo?: string | number;
   value: T;
 }
 

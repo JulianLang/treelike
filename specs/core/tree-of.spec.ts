@@ -36,7 +36,7 @@ describe('treeOf', () => {
     testTreeOfFn(propertyName, aBool, expectedType);
   });
 
-  it('should handle "level1"-recursions', () => {
+  fit('should handle "level1"-recursions', () => {
     // arrange
     const level1Recursion: any = {};
     level1Recursion.a = level1Recursion;
@@ -48,7 +48,7 @@ describe('treeOf', () => {
     const result = treeOf(level1Recursion);
 
     // assert, part 2
-    expect(result.children[0].isRecursionRoot).toBe(true);
+    expect(result.children[0].recursesTo).toBeTruthy();
     expect(result.children[0].value).toBe(level1Recursion);
     expect(result.value).toBe(level1Recursion);
   });
@@ -69,7 +69,7 @@ describe('treeOf', () => {
     const result = treeOf(level2Recursion);
 
     // assert, part 2
-    expect(result.children[0].children[1].isRecursionRoot).toBe(true);
+    expect(result.children[0].children[1].recursesTo).toBeTruthy();
     expect(result.children[0].children[1].value).toBe(level2Recursion);
     expect(result.value).toBe(level2Recursion);
   });
