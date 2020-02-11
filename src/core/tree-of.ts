@@ -52,6 +52,8 @@ function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
         */
         const parentalNode = knownValues.get(value)!;
         const parentalCopy = { ...parentalNode };
+
+        parentalCopy.parent = child.parent;
         parentalCopy.recursesTo = getRecursionPath(parentalNode, child);
 
         if (parentalCopy.name === defaultRootName) {
