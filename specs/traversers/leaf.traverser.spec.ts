@@ -1,8 +1,11 @@
 import { defaultRootName } from '../../src/core/constants';
 import { leafTraverser } from '../../src/core/traversers/leaf.traverser';
 import { treeOf } from '../../src/core/tree-of';
+import { TraverserSpecs } from '../shared-specs';
 
 describe('leafTraverser', () => {
+  TraverserSpecs.itShouldHandleRecursion(leafTraverser, () => {});
+
   it('should traverse in the correct order', () => {
     // arrange
     const obj = {

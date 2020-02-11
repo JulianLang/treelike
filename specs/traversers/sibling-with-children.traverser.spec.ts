@@ -3,8 +3,11 @@ import { defaultRootName } from '../../src/core/constants';
 import { siblingTraverser } from '../../src/core/traversers/sibling.traverser';
 import { ObjectTreeNode } from '../../src/core/types';
 import { findNode } from '../../src/core/util';
+import { TraverserSpecs } from '../shared-specs';
 
 describe('sibling with children traverser', () => {
+  TraverserSpecs.itShouldHandleRecursion(siblingTraverser, () => {});
+
   it('should traverse in the correct order', () => {
     // arrange
     const obj = {

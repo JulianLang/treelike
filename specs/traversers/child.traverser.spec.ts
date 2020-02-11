@@ -1,7 +1,10 @@
 import { childTraverser } from '../../src/core/traversers/child.traverser';
 import { treeOf } from '../../src/core/tree-of';
+import { TraverserSpecs } from '../shared-specs';
 
 describe('childTraverser', () => {
+  TraverserSpecs.itShouldHandleRecursion(childTraverser, () => {});
+
   it('should traverse in the correct order', () => {
     // arrange
     const obj = {

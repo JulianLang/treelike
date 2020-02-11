@@ -27,7 +27,7 @@ export function siblingTraverser<T extends ObjectTreeNode>(
   includeEntryNode = false,
   includeChildren = false,
 ): void {
-  if (node == null) {
+  if (node == null || node.recursesTo != null) {
     return;
   }
 

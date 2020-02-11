@@ -25,10 +25,14 @@ export function leafTraverser<T extends ObjectTreeNode>(
     onNext: TraverseCallbackFn<T>,
     breakWhen?: ConditionFn,
   ) {
+    if (node.recursesTo != null) {
+      return;
+    }
+
     for (const child of node.children) {
       leafTraverse(child, onNext, breakWhen);
 
-      if (breakLoop || breakWhen!(child)) {
+      if (breakLoop || breakWhen!(child) || node.recursesTo != null) {
         breakLoop = true;
         break;
       }

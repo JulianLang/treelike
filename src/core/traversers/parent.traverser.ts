@@ -4,7 +4,7 @@ export function parentTraverser<T extends ObjectTreeNode>(
   node: T,
   onNext: TraverseCallbackFn<T>,
 ): void {
-  if (node == null || node.parent == null) {
+  if (node == null || node.parent == null || node.recursesTo != null) {
     return;
   }
   if (node.parent.parent == null) {

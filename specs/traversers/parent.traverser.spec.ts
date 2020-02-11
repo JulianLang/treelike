@@ -3,8 +3,11 @@ import { parentTraverser } from '../../src/core/traversers/parent.traverser';
 import { treeOf } from '../../src/core/tree-of';
 import { ObjectTreeNode } from '../../src/core/types';
 import { findNode } from '../../src/core/util';
+import { TraverserSpecs } from '../shared-specs';
 
 describe('parentTraverser', () => {
+  TraverserSpecs.itShouldHandleRecursion(parentTraverser, () => {});
+
   it('should traverse in the correct order', () => {
     // arrange
     const obj = {
