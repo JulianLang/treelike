@@ -1,8 +1,8 @@
-import { defaultRootName } from '../../constants';
-import { treeOf } from '../../tree-of';
-import { ObjectTreeNode } from '../../types';
-import { findNode } from '../../util';
-import { parentTraverser } from '../parent.traverser';
+import { defaultRootName } from '../../src/core/constants';
+import { parentTraverser } from '../../src/core/traversers/parent.traverser';
+import { treeOf } from '../../src/core/tree-of';
+import { ObjectTreeNode } from '../../src/core/types';
+import { findNode } from '../../src/core/util';
 
 describe('parentTraverser', () => {
   it('should traverse in the correct order', () => {

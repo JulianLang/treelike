@@ -1,6 +1,6 @@
-import { defaultRootName } from '../../constants';
-import { treeOf } from '../../tree-of';
-import { leafTraverser } from '../leaf.traverser';
+import { defaultRootName } from '../../src/core/constants';
+import { leafTraverser } from '../../src/core/traversers/leaf.traverser';
+import { treeOf } from '../../src/core/tree-of';
 
 describe('leafTraverser', () => {
   it('should traverse in the correct order', () => {

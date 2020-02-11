@@ -1,5 +1,5 @@
-import { treeOf } from '../../tree-of';
-import { childTraverser } from '../child.traverser';
+import { childTraverser } from '../../src/core/traversers/child.traverser';
+import { treeOf } from '../../src/core/tree-of';
 
 describe('childTraverser', () => {
   it('should traverse in the correct order', () => {
