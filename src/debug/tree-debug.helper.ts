@@ -30,7 +30,7 @@ function printNode<T extends ObjectTreeNode>(node: T, indent: string): void {
       break;
   }
 
-  const recursion = !!node.recursesTo ? ' [Recursive]' : '';
+  const recursion = !!node.recursesTo ? ` [Recursive: ${node.recursesTo}]` : '';
   const prefix = indent === '' ? '◉' : '⦿→';
   console.log(`${indent}${prefix} "${node.name}" (${node.type}): ${value}${recursion}`);
 }
