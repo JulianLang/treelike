@@ -11,11 +11,12 @@ export function treeOf<T>(
   value: T,
   childSelector?: SelectorFn,
   parent: ObjectTreeNode | undefined = undefined,
+  nodeName = defaultRootName,
 ): ObjectTreeNode<T> {
   const node: ObjectTreeNode = {
     parent,
     value,
-    name: defaultRootName,
+    name: nodeName,
     type: nodeTypeOf(value),
     children: [],
   };
@@ -50,12 +51,14 @@ function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
           knownValues.get(...) is correct in this case.
         */
         const parentalNode = knownValues.get(value)!;
-        parentalNode.recursesTo = getRecursionPath(parentalNode, child);
-        node.children.push(parentalNode);
+        const parentalCopy = { ...parentalNode };
+        parentalCopy.recursesTo = getRecursionPath(parentalNode, child);
 
-        if (parentalNode.name === defaultRootName) {
-          parentalNode.name = nameOrIndex;
+        if (parentalCopy.name === defaultRootName) {
+          parentalCopy.name = nameOrIndex;
         }
+
+        node.children.push(parentalCopy);
       } else {
         tryAddToKnownValues(value, child);
         buildNode(child, selectChild);
