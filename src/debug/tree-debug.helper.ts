@@ -4,7 +4,11 @@ export function printSubtree<T extends ObjectTreeNode>(node: T, indent = ''): vo
   printNode(node, indent);
 
   for (const child of node.children) {
-    printSubtree(child, indent + '  ');
+    if (child.recursesTo) {
+      printNode(child, indent + '  ');
+    } else {
+      printSubtree(child, indent + '  ');
+    }
   }
 }
 
@@ -26,6 +30,7 @@ function printNode<T extends ObjectTreeNode>(node: T, indent: string): void {
       break;
   }
 
+  const recursion = !!node.recursesTo ? ' [Recursive]' : '';
   const prefix = indent === '' ? '◉' : '⦿→';
-  console.log(`${indent}${prefix} "${node.name}" (${node.type}): ${value}`);
+  console.log(`${indent}${prefix} "${node.name}" (${node.type}): ${value}${recursion}`);
 }
