@@ -5,7 +5,7 @@ import { addChild } from './operators';
 import { SelectorFn } from './types/child-selector.fn';
 import { ObjectTreeNode } from './types/object-tree.node';
 
-const knownValues: Map<any, ObjectTreeNode> = new Map();
+let knownValues: Map<any, ObjectTreeNode>;
 
 export function treeOf<T>(
   value: T,
@@ -13,6 +13,7 @@ export function treeOf<T>(
   parent: ObjectTreeNode | undefined = undefined,
   nodeName = defaultRootName,
 ): ObjectTreeNode<T> {
+  knownValues = new Map();
   const node: ObjectTreeNode = {
     parent,
     name: nodeName,
