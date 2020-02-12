@@ -96,21 +96,20 @@ describe('treeOf', () => {
     expect(recursiveNode.parent).toBe(expectedParent);
   });
 
-  // it('should also apply the childSelector fn on the input value', () => {
-  //   // arrange
-  //   const expectedValue = { value: 42 };
-  //   const obj = {
-  //     skipMe: 0,
-  //     expectedValue,
-  //   };
-  //   const selector = (o: any) => o.expectedValue;
+  it('should not reuse the "knownValues" map, but use a fresh instance when treeOf is called.', () => {
+    // arrange
+    const obj = {
+      a: {},
+    };
 
-  //   // act
-  //   const root: ObjectTreeNode = treeOf(obj, selector);
+    // act
+    const once = treeOf(obj);
+    const twice = treeOf(obj);
 
-  //   // assert
-  //   expect(root.value).toBe(expectedValue);
-  // });
+    // assert
+    expect(once.children[0].recursesTo).toBeUndefined();
+    expect(twice.children[0].recursesTo).toBeUndefined();
+  });
 });
 
 function testTreeOfFn(propertyName: string, value: any, type: string) {
