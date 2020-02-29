@@ -10,7 +10,8 @@
   "scripts": {
     "build": "npx rimraf ./dist && npx tsc -p .",
     "test": "npx jasmine-ts --config=\"jasmine.json\"",
-    "test:watch": "nodemon --quiet --ext ts --exec 'npx jasmine-ts --config=\"jasmine.json\"'"
+    "test:watch": "nodemon --quiet --ext ts --exec 'npx jasmine-ts --config=\"jasmine.json\"'",
+    "start": "npx ts-node ./playground.ts"
   },
   "author": "jlang",
   "license": "ISC",
