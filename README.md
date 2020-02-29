@@ -1,6 +1,6 @@
 # Treelike
 
-![treelike logo](https://github.com/JulianLang/treelike/blob/master/docs/treelike-logo.jpg?raw=true)
+![treelike logo](https://raw.githubusercontent.com/JulianLang/treelike/develop/docs/treelike-logo.jpg)
 
 `treelike` is a small set of functions that helps you converting a JS object into tree structure.
 
