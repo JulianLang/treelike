@@ -1,7 +1,7 @@
-import { treeOf } from '../../tree-of';
-import { ObjectTreeNode } from '../../types';
-import { findNode } from '../../util';
-import { siblingTraverser } from '../sibling.traverser';
+import { siblingTraverser } from '../../src/core/traversers/sibling.traverser';
+import { treeOf } from '../../src/core/tree-of';
+import { ObjectTreeNode } from '../../src/core/types';
+import { findNode } from '../../src/core/util';
 
 describe('siblingTraverser', () => {
   it('should traverse in the correct order', () => {
@@ -17,7 +17,7 @@ describe('siblingTraverser', () => {
       },
     };
     const root = treeOf(obj);
-    const startNode = findNode(root, n => n.name === 'startNode') as ObjectTreeNode<any>;
+    const startNode = findNode(root, n => n.name === 'startNode') as ObjectTreeNode;
     const orderOfNames: string[] = [];
 
     // act

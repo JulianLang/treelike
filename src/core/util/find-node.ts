@@ -1,12 +1,12 @@
-import { treeTraverser } from "../traversers";
-import { ConditionFn, ObjectTreeNode } from "../types";
+import { treeTraverser } from '../traversers';
+import { ConditionFn, ObjectTreeNode } from '../types';
 
-export function findNode(
-  root: ObjectTreeNode<any>,
+export function findNode<T extends ObjectTreeNode>(
+  root: T,
   condition: ConditionFn,
-  strategy = treeTraverser
-): ObjectTreeNode<any> | undefined {
-  let match: ObjectTreeNode<any>;
+  strategy = treeTraverser,
+): T | undefined {
+  let match: T;
 
   strategy(root, node => {
     if (match == null && condition(node) === true) {

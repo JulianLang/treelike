@@ -1,9 +1,9 @@
 export interface ObjectTreeNode<T = any> {
-  parent?: ObjectTreeNode<any>;
+  parent?: this;
   name: string | number;
   type: ObjectTreeNodeType;
-  children: ObjectTreeNode<any>[];
-  isRecursionRoot: boolean;
+  children: this[];
+  recursesTo?: string | number;
   value: T;
 }
 

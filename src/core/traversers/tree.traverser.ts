@@ -1,11 +1,11 @@
-import { ObjectTreeNode, TraverseCallbackFn } from "../types";
-import { childTraverser } from "./child.traverser";
+import { ObjectTreeNode, TraverseCallbackFn } from '../types';
+import { childTraverser } from './child.traverser';
 
-export function treeTraverser(
-  node: ObjectTreeNode<any>,
-  onNext: TraverseCallbackFn
+export function treeTraverser<T extends ObjectTreeNode>(
+  node: T,
+  onNext: TraverseCallbackFn<T>,
 ): void {
-  if (node == null) {
+  if (node == null || node.recursesTo != null) {
     return;
   }
 

@@ -1,23 +1,26 @@
 import { canIterate, iterate } from '../core/iterators';
+import { isUndefined, nodeTypeOf } from '../shared';
 import { defaultRootName } from './constants';
 import { addChild } from './operators';
-import { isUndefined, nodeTypeOf } from './shared';
 import { SelectorFn } from './types/child-selector.fn';
 import { ObjectTreeNode } from './types/object-tree.node';
 
-const knownValues: Map<any, ObjectTreeNode> = new Map();
+let knownValues: Map<any, ObjectTreeNode> = new Map();
 
 export function treeOf<T>(
   value: T,
   childSelector?: SelectorFn,
-  parent: ObjectTreeNode<any> | undefined = undefined,
+  parent: ObjectTreeNode | undefined = undefined,
+  nodeName = defaultRootName,
 ): ObjectTreeNode<T> {
-  const node: ObjectTreeNode<T> = {
+  // use a fresh map everytime building a new tree
+  knownValues = new Map();
+
+  const node: ObjectTreeNode = {
     parent,
+    name: nodeName,
     value,
-    name: defaultRootName,
     type: nodeTypeOf(value),
-    isRecursionRoot: false,
     children: [],
   };
 
@@ -31,17 +34,16 @@ export function treeOf<T>(
   return node;
 }
 
-function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
+function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
   const childValue = selectChild !== undefined ? selectChild(node.value) : node.value;
 
   if (canIterate(childValue)) {
     iterate(childValue, (value: any, nameOrIndex: string | number) => {
-      const child: ObjectTreeNode<any> = {
+      const child: ObjectTreeNode = {
         parent: node,
         value,
         name: nameOrIndex,
         type: nodeTypeOf(value),
-        isRecursionRoot: false,
         children: [],
       };
 
@@ -52,12 +54,16 @@ function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
           knownValues.get(...) is correct in this case.
         */
         const parentalNode = knownValues.get(value)!;
-        parentalNode.isRecursionRoot = true;
-        node.children.push(parentalNode);
+        const parentalCopy = { ...parentalNode };
 
-        if (parentalNode.name === defaultRootName) {
-          parentalNode.name = nameOrIndex;
+        parentalCopy.parent = child.parent;
+        parentalCopy.recursesTo = getRecursionPath(parentalNode, child);
+
+        if (parentalCopy.name === defaultRootName) {
+          parentalCopy.name = nameOrIndex;
         }
+
+        node.children.push(parentalCopy);
       } else {
         tryAddToKnownValues(value, child);
         buildNode(child, selectChild);
@@ -67,12 +73,36 @@ function buildNode(node: ObjectTreeNode<any>, selectChild?: SelectorFn): void {
   }
 }
 
+function getRecursionPath(
+  parentalNode: ObjectTreeNode<any>,
+  child: ObjectTreeNode<any>,
+): string | number | undefined {
+  const path: any[] = [];
+  let node: ObjectTreeNode | undefined = child;
+
+  while (node) {
+    path.push(node.name);
+
+    if (node.parent === parentalNode) {
+      break;
+    }
+
+    node = node!.parent;
+  }
+
+  path.push(parentalNode.name);
+  const reversed = path.reverse();
+  reversed.push(parentalNode.name);
+
+  return path.join(' => ');
+}
+
 /**
  * Adds a given value along with its associated node to the knownValues map.
  * @param value The value to be added as known.
  * @param child The associated node for this value.
  */
-function tryAddToKnownValues(value: any, child: ObjectTreeNode<any>) {
+function tryAddToKnownValues<T extends ObjectTreeNode>(value: any, child: T) {
   // only add reference types, such as objects and arrays.
   const type = nodeTypeOf(value);
   if (type !== 'value') {

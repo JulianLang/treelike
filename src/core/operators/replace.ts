@@ -1,9 +1,9 @@
 import { ObjectTreeNode } from '../types';
 
-export function replace(
-  node: ObjectTreeNode<any>,
-  other: ObjectTreeNode<any>,
-  onNode: ObjectTreeNode<any> | undefined = node.parent,
+export function replace<T extends ObjectTreeNode>(
+  node: T,
+  other: T,
+  onNode: T | undefined = node.parent,
 ): number {
   if (onNode === undefined) {
     throw new Error('Cannot replace node on a node collection that is undefined.');

@@ -1,4 +1,4 @@
-import { defaultRootName } from '../../src/core/constants';
+import { findNode } from '../../src';
 import { treeOf } from '../../src/core/tree-of';
 
 describe('treeOf', () => {
@@ -48,7 +48,7 @@ describe('treeOf', () => {
     const result = treeOf(level1Recursion);
 
     // assert, part 2
-    expect(result.children[0].isRecursionRoot).toBe(true);
+    expect(result.children[0].recursesTo).toBeTruthy();
     expect(result.children[0].value).toBe(level1Recursion);
     expect(result.value).toBe(level1Recursion);
   });
@@ -69,12 +69,12 @@ describe('treeOf', () => {
     const result = treeOf(level2Recursion);
 
     // assert, part 2
-    expect(result.children[0].children[1].isRecursionRoot).toBe(true);
+    expect(result.children[0].children[1].recursesTo).toBeTruthy();
     expect(result.children[0].children[1].value).toBe(level2Recursion);
     expect(result.value).toBe(level2Recursion);
   });
 
-  fit('should override only $root name when it is a recursion target', () => {
+  it('should add a copy of the parental node (but retaining the original node`s parent), when it is a recursion target', () => {
     // arrange
     const obj: any = {
       a: {},
@@ -83,15 +83,32 @@ describe('treeOf', () => {
       },
     };
     obj.a.b = obj; // obj is $root in tree
-    obj.c.b = obj.c; // obj.c is not $root in tree, don't rename
 
     // act
     const result = treeOf(obj);
 
     // assert
-    expect(result.name).not.toBe(defaultRootName);
-    expect(result.name).toBe('b');
-    expect(result.children[1].name).toBe('c');
+    const expectedParent = findNode(result, n => n.name === 'a')!;
+    const recursiveNode = findNode(result, n => n.name === 'b')!;
+
+    expect(recursiveNode).not.toBe(result);
+    expect(recursiveNode.value).toEqual(obj);
+    expect(recursiveNode.parent).toBe(expectedParent);
+  });
+
+  it('should not reuse the "knownValues" map, but use a fresh instance when treeOf is called.', () => {
+    // arrange
+    const obj = {
+      a: {},
+    };
+
+    // act
+    const once = treeOf(obj);
+    const twice = treeOf(obj);
+
+    // assert
+    expect(once.children[0].recursesTo).toBeUndefined();
+    expect(twice.children[0].recursesTo).toBeUndefined();
   });
 });
 

@@ -1,6 +1,6 @@
 {
   "name": "treelike",
-  "version": "0.0.19",
+  "version": "0.0.31",
   "description": "A library to convert objects into a tree-like structure.",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
@@ -8,18 +8,21 @@
     "dist/src/**/*"
   ],
   "scripts": {
-    "build": "npx tsc -p .",
+    "build": "npx rimraf ./dist && npx tsc -p .",
     "test": "npx jasmine-ts --config=\"jasmine.json\"",
-    "test:watch": "nodemon --quiet --ext ts --exec 'npx jasmine-ts --config=\"jasmine.json\"'"
+    "test:watch": "nodemon --quiet --ext ts --exec 'npx jasmine-ts --config=\"jasmine.json\"'",
+    "start": "npx ts-node ./playground.ts"
   },
   "author": "jlang",
   "license": "ISC",
+  "dependencies": {},
   "devDependencies": {
     "@types/jasmine": "^3.4.0",
     "@types/node": "^12.7.4",
     "jasmine": "^3.4.0",
     "jasmine-ts": "^0.3.0",
     "nodemon": "^1.19.4",
+    "rimraf": "^3.0.1",
     "ts-node": "^8.3.0",
     "typescript": "^3.6.2"
   }

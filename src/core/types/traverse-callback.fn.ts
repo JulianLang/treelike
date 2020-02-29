@@ -1,3 +1,3 @@
-import { ObjectTreeNode } from "./object-tree.node";
+import { ObjectTreeNode } from './object-tree.node';
 
-export type TraverseCallbackFn = (node: ObjectTreeNode<any>) => void;
+export type TraverseCallbackFn<T extends ObjectTreeNode = ObjectTreeNode> = (node: T) => void;

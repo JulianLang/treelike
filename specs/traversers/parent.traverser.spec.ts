@@ -1,10 +1,13 @@
-import { defaultRootName } from '../../constants';
-import { treeOf } from '../../tree-of';
-import { ObjectTreeNode } from '../../types';
-import { findNode } from '../../util';
-import { parentTraverser } from '../parent.traverser';
+import { defaultRootName } from '../../src/core/constants';
+import { parentTraverser } from '../../src/core/traversers/parent.traverser';
+import { treeOf } from '../../src/core/tree-of';
+import { ObjectTreeNode } from '../../src/core/types';
+import { findNode } from '../../src/core/util';
+import { TraverserSpecs } from '../shared-specs';
 
 describe('parentTraverser', () => {
+  TraverserSpecs.itShouldHandleRecursion(parentTraverser, () => {});
+
   it('should traverse in the correct order', () => {
     // arrange
     const obj = {
@@ -21,7 +24,7 @@ describe('parentTraverser', () => {
       },
     };
     const rootNode = treeOf(obj);
-    const startNode = findNode(rootNode, n => n.name === 'startNode') as ObjectTreeNode<any>;
+    const startNode = findNode(rootNode, n => n.name === 'startNode') as ObjectTreeNode;
     const orderOfNames: string[] = [];
 
     // act

@@ -1,4 +1,4 @@
-import { isDefined } from '../shared';
+import { isDefined } from '../../shared';
 import { ConditionFn, ObjectTreeNode, TraverseCallbackFn } from '../types';
 
 /**
@@ -13,18 +13,26 @@ import { ConditionFn, ObjectTreeNode, TraverseCallbackFn } from '../types';
  * @param node The node to start traversing from.
  * @param onNext The callback to call for each node being traversed.
  */
-export function leafTraverser(
-  node: ObjectTreeNode,
-  onNext: TraverseCallbackFn,
+export function leafTraverser<T extends ObjectTreeNode>(
+  node: T,
+  onNext: TraverseCallbackFn<T>,
   breakWhen: ConditionFn = () => false,
 ): void {
   let breakLoop = false;
 
-  function leafTraverse(node: ObjectTreeNode, onNext: TraverseCallbackFn, breakWhen?: ConditionFn) {
+  function leafTraverse<T extends ObjectTreeNode>(
+    node: T,
+    onNext: TraverseCallbackFn<T>,
+    breakWhen?: ConditionFn,
+  ) {
+    if (node.recursesTo != null) {
+      return;
+    }
+
     for (const child of node.children) {
       leafTraverse(child, onNext, breakWhen);
 
-      if (breakLoop || breakWhen!(child)) {
+      if (breakLoop || breakWhen!(child) || node.recursesTo != null) {
         breakLoop = true;
         break;
       }
