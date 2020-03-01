@@ -1,18 +1,30 @@
 import { ObjectTreeNode } from '../core/types/object-tree.node';
+import { NodeOutputFormatter } from './types';
 
-export function printSubtree<T extends ObjectTreeNode>(node: T, indent = ''): void {
-  printNode(node, indent);
+const defaultFormatter: NodeOutputFormatter = (name, type, value, recursion) =>
+  `"${name.toString()}" (${type}): ${value}${recursion ?? ''}`;
+
+export function printSubtree<T extends ObjectTreeNode>(
+  node: T,
+  formatter: NodeOutputFormatter = defaultFormatter,
+  indent = '',
+): void {
+  printNode(node, formatter, indent);
 
   for (const child of node.children) {
     if (child.recursesTo) {
-      printNode(child, indent + '  ');
+      printNode(child, formatter, indent + '  ');
     } else {
-      printSubtree(child, indent + '  ');
+      printSubtree(child, formatter, indent + '  ');
     }
   }
 }
 
-function printNode<T extends ObjectTreeNode>(node: T, indent: string): void {
+function printNode<T extends ObjectTreeNode>(
+  node: T,
+  formatter: NodeOutputFormatter,
+  indent: string,
+): void {
   let value: string;
 
   switch (typeof node.value) {
@@ -32,5 +44,7 @@ function printNode<T extends ObjectTreeNode>(node: T, indent: string): void {
 
   const recursion = !!node.recursesTo ? ` [Recursive: ${node.recursesTo}]` : '';
   const prefix = indent === '' ? '◉' : '⦿→';
-  console.log(`${indent}${prefix} "${node.name}" (${node.type}): ${value}${recursion}`);
+  const content = formatter(node.name, node.type, value, recursion);
+
+  console.log(`${indent}${prefix} ${content}`);
 }
