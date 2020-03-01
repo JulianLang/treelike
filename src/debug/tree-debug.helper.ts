@@ -2,7 +2,7 @@ import { ObjectTreeNode } from '../core/types/object-tree.node';
 import { NodeOutputFormatter } from './types';
 
 const defaultFormatter: NodeOutputFormatter = (name, type, value, recursion) =>
-  `"${name.toString()}" (${type}): ${value}${recursion ?? ''}`;
+  `"${name.toString()}" (${type}): ${value}${recursion}`;
 
 export function printSubtree<T extends ObjectTreeNode>(
   node: T,
