@@ -1,10 +1,13 @@
-export interface ObjectTreeNode<T = any> {
-  parent?: this;
+export interface TreelikeNode<
+  NodeValue = any,
+  ChildrenTypes extends TreelikeNode<unknown, any[]>[] = any[]
+> {
+  parent?: TreelikeNode;
   name: string | number;
-  type: ObjectTreeNodeType;
-  children: this[];
+  type: TreelikeNodeType;
+  children: [...ChildrenTypes];
   recursesTo?: string | number;
-  value: T;
+  value: NodeValue;
 }
 
-export type ObjectTreeNodeType = 'object' | 'array' | 'value';
+export type TreelikeNodeType = 'object' | 'array' | 'value';

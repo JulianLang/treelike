@@ -1,10 +1,10 @@
-import { ObjectTreeNode } from '../core/types/object-tree.node';
+import { TreelikeNode } from '../core/types/object-tree.node';
 import { NodeOutputFormatter } from './types';
 
 const defaultFormatter: NodeOutputFormatter = (name, type, value, recursion) =>
   `"${name.toString()}" (${type}): ${value}${recursion}`;
 
-export function printSubtree<T extends ObjectTreeNode>(
+export function printSubtree<T extends TreelikeNode>(
   node: T,
   formatter: NodeOutputFormatter = defaultFormatter,
   indent = '',
@@ -20,7 +20,7 @@ export function printSubtree<T extends ObjectTreeNode>(
   }
 }
 
-function printNode<T extends ObjectTreeNode>(
+function printNode<T extends TreelikeNode>(
   node: T,
   formatter: NodeOutputFormatter,
   indent: string,

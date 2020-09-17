@@ -1,7 +1,7 @@
-import { ObjectTreeNode, TraverseCallbackFn } from '../types';
+import { TraverseCallbackFn, TreelikeNode } from '../types';
 import { treeTraverser } from './tree.traverser';
 
-export function traverse<T extends ObjectTreeNode>(
+export function traverse<T extends TreelikeNode>(
   node: T,
   onNext: TraverseCallbackFn<T>,
   strategy: Function = treeTraverser,

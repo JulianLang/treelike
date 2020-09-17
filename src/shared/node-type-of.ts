@@ -1,12 +1,12 @@
-import { ObjectTreeNodeType } from '../core/types';
+import { TreelikeNodeType } from '../core/types';
 import { isDefined } from './is-defined';
 
-export function nodeTypeOf(value: any): ObjectTreeNodeType {
+export function nodeTypeOf(value: any): TreelikeNodeType {
   if (!isDefined(value)) {
     return 'value';
   }
 
-  let type: ObjectTreeNodeType;
+  let type: TreelikeNodeType;
 
   if (typeof value === 'object') {
     type = Array.isArray(value) ? 'array' : 'object';

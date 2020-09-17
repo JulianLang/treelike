@@ -1,6 +1,6 @@
-import { ObjectTreeNode } from '../types';
+import { TreelikeNode } from '../types';
 
-export function replace<T extends ObjectTreeNode>(
+export function replace<T extends TreelikeNode>(
   node: T,
   other: T,
   onNode: T | undefined = node.parent,

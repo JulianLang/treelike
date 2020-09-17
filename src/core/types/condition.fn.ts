@@ -1,3 +1,3 @@
-import { ObjectTreeNode } from './object-tree.node';
+import { TreelikeNode } from './object-tree.node';
 
-export type ConditionFn<T extends ObjectTreeNode = ObjectTreeNode> = (node: T) => boolean;
+export type ConditionFn<T extends TreelikeNode = TreelikeNode> = (node: T) => boolean;

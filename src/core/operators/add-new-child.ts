@@ -1,8 +1,8 @@
-import { ObjectTreeNode } from '../types';
+import { TreelikeNode } from '../types';
 import { addChild } from './add-child';
 import { createNode } from './create-node';
 
-export function addNewChild<T extends ObjectTreeNode>(
+export function addNewChild<T extends TreelikeNode>(
   toNode: T,
   name: string,
   value: any,

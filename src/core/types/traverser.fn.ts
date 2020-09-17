@@ -1,7 +1,4 @@
-import { ObjectTreeNode } from './object-tree.node';
+import { TreelikeNode } from './object-tree.node';
 import { TraverseCallbackFn } from './traverse-callback.fn';
 
-export type TraverserFn<T extends ObjectTreeNode> = (
-  node: T,
-  onNext: TraverseCallbackFn<T>,
-) => void;
+export type TraverserFn<T extends TreelikeNode> = (node: T, onNext: TraverseCallbackFn<T>) => void;

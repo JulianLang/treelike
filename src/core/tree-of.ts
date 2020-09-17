@@ -3,20 +3,20 @@ import { isUndefined, nodeTypeOf } from '../shared';
 import { defaultRootName } from './constants';
 import { addChild } from './operators';
 import { SelectorFn } from './types/child-selector.fn';
-import { ObjectTreeNode } from './types/object-tree.node';
+import { TreelikeNode } from './types/object-tree.node';
 
-let knownValues: Map<any, ObjectTreeNode> = new Map();
+let knownValues: Map<any, TreelikeNode> = new Map();
 
 export function treeOf<T>(
   value: T,
   childSelector?: SelectorFn,
-  parent: ObjectTreeNode | undefined = undefined,
+  parent: TreelikeNode | undefined = undefined,
   nodeName = defaultRootName,
-): ObjectTreeNode<T> {
+): TreelikeNode<T> {
   // use a fresh map everytime building a new tree
   knownValues = new Map();
 
-  const node: ObjectTreeNode = {
+  const node: TreelikeNode = {
     parent,
     name: nodeName,
     value,
@@ -34,12 +34,12 @@ export function treeOf<T>(
   return node;
 }
 
-function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
+function buildNode(node: TreelikeNode, selectChild?: SelectorFn): void {
   const childValue = selectChild !== undefined ? selectChild(node.value) : node.value;
 
   if (canIterate(childValue)) {
     iterate(childValue, (value: any, nameOrIndex: string | number) => {
-      const child: ObjectTreeNode = {
+      const child: TreelikeNode = {
         parent: node,
         value,
         name: nameOrIndex,
@@ -74,11 +74,11 @@ function buildNode(node: ObjectTreeNode, selectChild?: SelectorFn): void {
 }
 
 function getRecursionPath(
-  parentalNode: ObjectTreeNode<any>,
-  child: ObjectTreeNode<any>,
+  parentalNode: TreelikeNode<any>,
+  child: TreelikeNode<any>,
 ): string | number | undefined {
   const path: any[] = [];
-  let node: ObjectTreeNode | undefined = child;
+  let node: TreelikeNode | undefined = child;
 
   while (node) {
     path.push(node.name);
@@ -102,7 +102,7 @@ function getRecursionPath(
  * @param value The value to be added as known.
  * @param child The associated node for this value.
  */
-function tryAddToKnownValues<T extends ObjectTreeNode>(value: any, child: T) {
+function tryAddToKnownValues<T extends TreelikeNode>(value: any, child: T) {
   // only add reference types, such as objects and arrays.
   const type = nodeTypeOf(value);
   if (type !== 'value') {

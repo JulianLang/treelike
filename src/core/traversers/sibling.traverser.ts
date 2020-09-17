@@ -1,27 +1,27 @@
-import { ObjectTreeNode, TraverseCallbackFn } from '../types';
+import { TraverseCallbackFn, TreelikeNode } from '../types';
 
-export function siblingAndSelfTraverser<T extends ObjectTreeNode>(
+export function siblingAndSelfTraverser<T extends TreelikeNode>(
   node: T,
   onNext: TraverseCallbackFn<T>,
 ) {
   siblingTraverser(node, onNext, true, false);
 }
 
-export function siblingAndSelfWithChildrenTraverser<T extends ObjectTreeNode>(
+export function siblingAndSelfWithChildrenTraverser<T extends TreelikeNode>(
   node: T,
   onNext: TraverseCallbackFn<T>,
 ) {
   siblingTraverser(node, onNext, true, true);
 }
 
-export function siblingWithChildrenTraverser<T extends ObjectTreeNode>(
+export function siblingWithChildrenTraverser<T extends TreelikeNode>(
   node: T,
   onNext: TraverseCallbackFn<T>,
 ) {
   siblingTraverser(node, onNext, false, true);
 }
 
-export function siblingTraverser<T extends ObjectTreeNode>(
+export function siblingTraverser<T extends TreelikeNode>(
   node: T,
   onNext: TraverseCallbackFn<T>,
   includeEntryNode = false,
@@ -42,7 +42,7 @@ export function siblingTraverser<T extends ObjectTreeNode>(
   enumerateSiblings(targetNodes, node, onNext, includeEntryNode, includeChildren);
 }
 
-function enumerateSiblings<T extends ObjectTreeNode>(
+function enumerateSiblings<T extends TreelikeNode>(
   siblings: T[],
   entryNode: T,
   onNext: TraverseCallbackFn<T>,

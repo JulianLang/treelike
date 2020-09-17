@@ -1,5 +1,5 @@
 import { isDefined } from '../../shared';
-import { ConditionFn, ObjectTreeNode, TraverseCallbackFn } from '../types';
+import { ConditionFn, TraverseCallbackFn, TreelikeNode } from '../types';
 
 /**
  * Traverses a tree leafwise and climbs it recursively up:
@@ -13,14 +13,14 @@ import { ConditionFn, ObjectTreeNode, TraverseCallbackFn } from '../types';
  * @param node The node to start traversing from.
  * @param onNext The callback to call for each node being traversed.
  */
-export function leafTraverser<T extends ObjectTreeNode>(
+export function leafTraverser<T extends TreelikeNode>(
   node: T,
   onNext: TraverseCallbackFn<T>,
   breakWhen: ConditionFn = () => false,
 ): void {
   let breakLoop = false;
 
-  function leafTraverse<T extends ObjectTreeNode>(
+  function leafTraverse<T extends TreelikeNode>(
     node: T,
     onNext: TraverseCallbackFn<T>,
     breakWhen?: ConditionFn,

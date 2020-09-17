@@ -1,12 +1,12 @@
 import { nodeTypeOf } from '../../shared';
-import { ObjectTreeNode } from '../types';
+import { TreelikeNode } from '../types';
 
-export function createNode<T>(
+export function createNode<T, ChildrenTypes extends TreelikeNode<unknown, any[]>[]>(
   name: string | number,
   value: T,
-  children: ObjectTreeNode[] = [],
-  parent?: ObjectTreeNode,
-): ObjectTreeNode {
+  children: [...ChildrenTypes],
+  parent?: TreelikeNode,
+): TreelikeNode<T, ChildrenTypes> {
   return {
     name,
     value,

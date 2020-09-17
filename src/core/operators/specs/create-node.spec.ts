@@ -1,4 +1,4 @@
-import { ObjectTreeNode } from '../../types';
+import { TreelikeNode } from '../../types';
 import { createNode } from '../create-node';
 
 describe('createNode', () => {
@@ -6,8 +6,8 @@ describe('createNode', () => {
     // arrange
     const name = 'name';
     const value = {};
-    const children: ObjectTreeNode[] = [];
-    const parent: ObjectTreeNode = {
+    const children: TreelikeNode[] = [];
+    const parent: TreelikeNode = {
       name: 'parent',
       children: [],
       type: 'object',

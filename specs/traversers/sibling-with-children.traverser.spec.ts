@@ -1,7 +1,7 @@
 import { treeOf } from '../../src/core';
 import { defaultRootName } from '../../src/core/constants';
 import { siblingTraverser } from '../../src/core/traversers/sibling.traverser';
-import { ObjectTreeNode } from '../../src/core/types';
+import { TreelikeNode } from '../../src/core/types';
 import { findNode } from '../../src/core/util';
 import { TraverserSpecs } from '../shared-specs';
 
@@ -26,7 +26,7 @@ describe('sibling with children traverser', () => {
     // act
     siblingTraverser(
       rootNode,
-      node => {
+      (node) => {
         orderOfNames.push(node.name as string);
       },
       /* includeEntryNode */ true,
@@ -50,13 +50,13 @@ describe('sibling with children traverser', () => {
       },
     };
     const rootNode = treeOf(obj);
-    const startNode = findNode(rootNode, n => n.name === '2') as ObjectTreeNode;
+    const startNode = findNode(rootNode, (n) => n.name === '2') as TreelikeNode;
     const orderOfNames: string[] = [];
 
     // act
     siblingTraverser(
       startNode,
-      node => {
+      (node) => {
         orderOfNames.push(node.name as string);
       },
       /* includeEntryNode */ false,

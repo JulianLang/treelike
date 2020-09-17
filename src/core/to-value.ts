@@ -1,10 +1,10 @@
-import { ObjectTreeNode, SelectorFn } from './types';
+import { SelectorFn, TreelikeNode } from './types';
 
 /**
  * Converts a node back into the value it represents.
  * @param node The node to convert back into a value.
  */
-export function toValue<T = any>(node: ObjectTreeNode, selectChild?: SelectorFn): T {
+export function toValue<T = any>(node: TreelikeNode, selectChild?: SelectorFn): T {
   const identityFn = (value: any) => value;
   const childSelector = selectChild || identityFn;
   const result = convertToValue(node, new Set(), childSelector);
@@ -18,7 +18,7 @@ export function toValue<T = any>(node: ObjectTreeNode, selectChild?: SelectorFn)
  * @param alreadySeenValues A set of objects already seen in conversion process.
  * @param selectChild A function selecting child-nodes from a given node.
  */
-function convertToValue<T extends ObjectTreeNode>(
+function convertToValue<T extends TreelikeNode>(
   node: T,
   alreadySeenValues: Set<any>,
   selectChild: SelectorFn<T>,
@@ -47,7 +47,7 @@ function convertToValue<T extends ObjectTreeNode>(
   return result;
 }
 
-function toArrayValue<T extends ObjectTreeNode>(
+function toArrayValue<T extends TreelikeNode>(
   node: T,
   alreadySeenValues: Set<any>,
   selectChild: SelectorFn<T>,
@@ -63,7 +63,7 @@ function toArrayValue<T extends ObjectTreeNode>(
   return result;
 }
 
-function toObjectValue<T extends ObjectTreeNode>(
+function toObjectValue<T extends TreelikeNode>(
   node: T,
   alreadySeenValues: Set<any>,
   selectChild: SelectorFn<T>,

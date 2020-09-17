@@ -1,6 +1,6 @@
-import { ObjectTreeNode } from '../types';
+import { TreelikeNode } from '../types';
 
-export function remove<T extends ObjectTreeNode>(
+export function remove<T extends TreelikeNode>(
   node: T,
   parent: T | undefined = node.parent,
 ): number {
