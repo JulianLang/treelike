@@ -1,4 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["./specs"]
+  "include": ["./specs"],
+  "exclude": ["./playground.ts"]
 }
