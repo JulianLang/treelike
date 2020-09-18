@@ -1,7 +1,7 @@
-import { siblingTraverser } from '../../src/core/traversers/sibling.traverser';
-import { treeOf } from '../../src/core/tree-of';
-import { TreelikeNode } from '../../src/core/types';
-import { findNode } from '../../src/core/util';
+import { treeOf } from '../../tree-of';
+import { TreelikeNode } from '../../types';
+import { findNode } from '../../util';
+import { siblingTraverser } from '../sibling.traverser';
 
 describe('siblingTraverser', () => {
   it('should traverse in the correct order', () => {

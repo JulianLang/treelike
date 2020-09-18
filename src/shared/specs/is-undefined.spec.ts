@@ -1,4 +1,4 @@
-import { isUndefined } from '../../src';
+import { isUndefined } from '../..';
 
 describe('isUndefined helper function', () => {
   it('should return true for null and undefined, false otherwise', () => {

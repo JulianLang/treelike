@@ -1,6 +1,6 @@
-import { childTraverser } from '../../src/core/traversers/child.traverser';
-import { treeOf } from '../../src/core/tree-of';
-import { TraverserSpecs } from '../shared-specs';
+import { TraverserSpecs } from '../../../../specs/shared-specs';
+import { treeOf } from '../../tree-of';
+import { childTraverser } from '../child.traverser';
 
 describe('childTraverser', () => {
   TraverserSpecs.itShouldHandleRecursion(childTraverser, () => {});
@@ -21,7 +21,7 @@ describe('childTraverser', () => {
     const orderOfNames: string[] = [];
 
     // act
-    childTraverser(tree, node => {
+    childTraverser(tree, (node) => {
       orderOfNames.push(node.name as string);
     });
 

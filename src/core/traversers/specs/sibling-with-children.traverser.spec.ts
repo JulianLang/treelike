@@ -1,9 +1,9 @@
-import { treeOf } from '../../src/core';
-import { defaultRootName } from '../../src/core/constants';
-import { siblingTraverser } from '../../src/core/traversers/sibling.traverser';
-import { TreelikeNode } from '../../src/core/types';
-import { findNode } from '../../src/core/util';
-import { TraverserSpecs } from '../shared-specs';
+import { treeOf } from '../..';
+import { TraverserSpecs } from '../../../../specs/shared-specs';
+import { defaultRootName } from '../../constants';
+import { TreelikeNode } from '../../types';
+import { findNode } from '../../util';
+import { siblingTraverser } from '../sibling.traverser';
 
 describe('sibling with children traverser', () => {
   TraverserSpecs.itShouldHandleRecursion(siblingTraverser, () => {});

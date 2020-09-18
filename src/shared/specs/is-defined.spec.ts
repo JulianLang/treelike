@@ -1,4 +1,4 @@
-import { isDefined } from '../../src';
+import { isDefined } from '../..';
 
 describe('isDefined', () => {
   it('should return false for null and undefined, false otherwise', () => {

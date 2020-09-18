@@ -1,7 +1,7 @@
-import { defaultRootName } from '../../src/core/constants';
-import { leafTraverser } from '../../src/core/traversers/leaf.traverser';
-import { treeOf } from '../../src/core/tree-of';
-import { TraverserSpecs } from '../shared-specs';
+import { TraverserSpecs } from '../../../../specs/shared-specs';
+import { defaultRootName } from '../../constants';
+import { treeOf } from '../../tree-of';
+import { leafTraverser } from '../leaf.traverser';
 
 describe('leafTraverser', () => {
   TraverserSpecs.itShouldHandleRecursion(leafTraverser, () => {});
@@ -22,7 +22,7 @@ describe('leafTraverser', () => {
     const orderOfNames: string[] = [];
 
     // act
-    leafTraverser(tree, node => {
+    leafTraverser(tree, (node) => {
       orderOfNames.push(node.name as string);
     });
 
@@ -40,7 +40,7 @@ describe('leafTraverser', () => {
     const orderOfNames: string[] = [];
 
     // act
-    leafTraverser(tree, node => {
+    leafTraverser(tree, (node) => {
       orderOfNames.push(node.name as string);
     });
 
@@ -64,8 +64,8 @@ describe('leafTraverser', () => {
     // act
     leafTraverser(
       tree,
-      node => orderOfNames.push(node.name as string),
-      node => node.name === '3',
+      (node) => orderOfNames.push(node.name as string),
+      (node) => node.name === '3',
     );
 
     // assert
