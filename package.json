@@ -12,7 +12,7 @@
     "build": "npx rimraf ./dist && npx tsc -p .",
     "test": "jest",
     "test:pattern": "jest --testPathPattern",
-    "test:watch": "jest -w",
+    "test:watch": "jest --watch",
     "start": "npx ts-node ./playground.ts"
   },
   "author": "jlang",
