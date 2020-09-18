@@ -1,4 +1,4 @@
-import { TreelikeNode } from '../core/types/object-tree.node';
+import { TreelikeNode } from '../core/types';
 import { NodeOutputFormatter } from './types';
 
 const defaultFormatter: NodeOutputFormatter = (name, type, value, recursion) =>

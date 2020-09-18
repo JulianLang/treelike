@@ -4,7 +4,7 @@ import { TreelikeNode } from '../types';
 export function createNode<T, ChildrenTypes extends TreelikeNode<unknown, any[]>[]>(
   name: string | number,
   value: T,
-  children: [...ChildrenTypes],
+  children: [...ChildrenTypes] = [] as any,
   parent?: TreelikeNode,
 ): TreelikeNode<T, ChildrenTypes> {
   return {
