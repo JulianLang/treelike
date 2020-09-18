@@ -1,8 +1,9 @@
+import { Existing } from '../../shared/types';
 import { TraverseCallbackFn, TreelikeNode } from '../types';
 
 export function parentTraverser<T extends TreelikeNode>(
   node: T,
-  onNext: TraverseCallbackFn<T>,
+  onNext: TraverseCallbackFn<Existing<typeof node.parent>>,
 ): void {
   if (node == null || node.parent == null || node.recursesTo != null) {
     return;

@@ -14,15 +14,13 @@ describe('array iterator', () => {
     expect(spyCallback).toHaveBeenCalledTimes(numberOfItems);
   });
 
-  it('should ', () => {
+  it('should pass in correct values', () => {
     // arrange
     const array = [1, 2, 3, 4];
-    const numberOfItems = array.length;
 
     // act
     iterateArray(array, (value, index) => {
       // assert
-      expect(typeof index).toBe('number');
       expect(value).toBe(array[index as number]);
     });
   });
