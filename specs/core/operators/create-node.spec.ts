@@ -1,5 +1,5 @@
-import { TreelikeNode } from '../../types';
-import { createNode } from '../create-node';
+import { createNode } from '../../../src/core/operators/create-node';
+import { TreelikeNode } from '../../../src/core/types';
 
 describe('createNode', () => {
   it('should convert the parameters into a node object', () => {

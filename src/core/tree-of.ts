@@ -1,7 +1,6 @@
 import { canIterate, iterate } from '../core/iterators';
 import { isUndefined, nodeTypeOf } from '../shared';
 import { defaultRootName } from './constants';
-import { addChild } from './operators';
 import { TreelikeNode } from './types';
 import { SelectorFn } from './types/child-selector.fn';
 
@@ -10,23 +9,18 @@ let knownValues: Map<any, TreelikeNode> = new Map();
 export function treeOf<T>(
   value: T,
   childSelector?: SelectorFn,
-  parent: TreelikeNode | undefined = undefined,
   nodeName = defaultRootName,
 ): TreelikeNode<T> {
   // use a fresh map everytime building a new tree
   knownValues = new Map();
 
   const node: TreelikeNode<T, []> = {
-    parent,
+    parent: undefined,
     name: nodeName,
     value,
     type: nodeTypeOf(value),
     children: [],
   };
-
-  if (parent !== undefined) {
-    addChild(node, parent);
-  }
 
   tryAddToKnownValues(value, node);
   buildNode(node, childSelector);
