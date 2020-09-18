@@ -1,4 +1,4 @@
-import { IteratorCallback } from './iterator.callback';
+import { IteratorCallback } from './types';
 
 export function iterateArray(arr: any[], callback: IteratorCallback): void {
   let index = 0;

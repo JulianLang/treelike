@@ -1,4 +1,4 @@
-import { IteratorCallback } from './iterator.callback';
+import { IteratorCallback } from './types';
 
 export function iterateObject(obj: any, callback: IteratorCallback): void {
   for (const name in obj) {

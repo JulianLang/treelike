@@ -1,7 +1,7 @@
 import { iterateArray } from './array.iterator';
-import { canIterate } from './can-iterate';
-import { IteratorCallback } from './iterator.callback';
 import { iterateObject } from './object.iterator';
+import { IteratorCallback } from './types';
+import { canIterate } from './util';
 export function iterate<T>(value: T, callback: IteratorCallback): void {
   if (!canIterate(value)) {
     return;

@@ -1,4 +1,4 @@
-import { canIterate } from '../can-iterate';
+import { canIterate } from '../util';
 
 describe('canIterate', () => {
   it('should return true for object based inputs', () => {
