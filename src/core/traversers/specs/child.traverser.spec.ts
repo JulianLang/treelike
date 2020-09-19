@@ -1,4 +1,4 @@
-import { TraverserSpecs } from '../../../../specs/shared-specs';
+import { TraverserSpecs } from '../../../shared/specs/shared-specs';
 import { treeOf } from '../../tree-of';
 import { childTraverser } from '../child.traverser';
 

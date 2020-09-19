@@ -1,5 +1,5 @@
 import { treeOf } from '../..';
-import { TraverserSpecs } from '../../../../specs/shared-specs';
+import { TraverserSpecs } from '../../../shared/specs/shared-specs';
 import { defaultRootName } from '../../constants';
 import { TreelikeNode } from '../../types';
 import { findNode } from '../../util';

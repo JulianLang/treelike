@@ -1,4 +1,4 @@
-import { treeOf } from '../src';
+import { treeOf } from '../../core';
 
 export const TraverserSpecs = {
   itShouldHandleRecursion: (fn: Function, ...params: any[]) =>
